@@ -1,12 +1,28 @@
- import React from 'react';
-import Navbar from './Components/Navbar/Navbar';
-import TopSlider from './Components/TopNav/Tapslider';
+ import React from "react";
+import TopSlider from "./Components/TopNav/Tapslider";
+import Navbar from "./Components/Navbar/Navbar";
+import TopNav from "./Components/TopNav/TopNav";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./Pages/Home/Home";
+import Shop from "./Pages/Shop/Shop";
+import Login from "./Pages/Login/Login";
+import Contact from "./Pages/Contact/Contact";
+import { ToastContainer } from "react-toastify"; // ✅ ADD THIS LINE
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   return (
     <div>
-      <TopSlider/>
+      <ToastContainer position="top-center" autoClose={3000} />
+      <TopSlider />
       <Navbar />
+      <TopNav />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
     </div>
   );
 };

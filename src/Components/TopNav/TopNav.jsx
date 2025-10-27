@@ -61,7 +61,7 @@ const TopNav = () => {
                 />
                 <button
                   onClick={handleSearch}
-                  className="bg-red-900 text-white px-5 rounded-tr-full rounded-br-full font-semibold cursor-pointer transition-all duration-300 hover:bg-red-700"
+                  className="bg-red-900 text-yellow-100  px-5 rounded-tr-full rounded-br-full font-semibold cursor-pointer transition-all duration-300  text-yellow-200"
                 >
                   Search
                 </button>

@@ -10,6 +10,7 @@ import Contact from "./Pages/Contact/Contact";
 import { ToastContainer } from "react-toastify"; // ✅ ADD THIS LINE
 import "react-toastify/dist/ReactToastify.css";
 import About from "./Pages/About/About";
+import Footer from "./Components/Footer/Footer";
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About/>} />
       </Routes>
+      <Footer/>
     </div>
   );
 };

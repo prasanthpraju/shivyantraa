@@ -1,6 +1,7 @@
 import React from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { useNavigate } from "react-router-dom";
+import rudraksha from "../../../src/assets/rec.webp"
 
 const About = () => {
   const navigate = useNavigate();
@@ -9,21 +10,9 @@ const About = () => {
     <div className="min-h-screen bg-white text-gray-900">
       {/* ===== Banner Section ===== */}
       <section className="relative w-full aspect-[16/5] bg-cover bg-center"
-        style={{
-          backgroundImage:
-            "url('https://rudralife.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fbanner.6dc5124a.jpg&w=1920&q=75')",
-        }}
+        style={{backgroundImage:`url(${rudraksha})`}}
       >
-        <div className="absolute inset-0 bg-black/40 flex items-center justify-start p-4 md:p-10">
-          <button onClick={() => navigate(-1)}>
-            <ArrowBackIosIcon
-              style={{ color: "white", fontWeight: "bold", fontSize: "40px" }}
-            />
-          </button>
-          <h1 className="text-white ml-3 text-2xl sm:text-3xl md:text-5xl font-bold">
-            About Us
-          </h1>
-        </div>
+        
       </section>
 
       {/* ===== About Content ===== */}

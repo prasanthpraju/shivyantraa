@@ -3,29 +3,31 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav className="bg-red-900 shadow-lg hidden lg:flex justify-evenly items-center h-16 px-5">
-      {/* Logo */}
-      <div className="flex justify-start">
-        <Link to="/" className="text-xl font-bold text-yellow-200 ">
-          Shivyantra
-        </Link>
-      </div>
-
-      {/* Navigation Links */}
-      <div className="flex space-x-6">
-        <Link to="/" className=" text-yellow-100 hover:underline font-bold ml-10">
+    // hidden on mobile, visible on sm+ screens
+    <nav className="hidden sm:block bg-yellow-50 border-t border-yellow-200 shadow-inner">
+      <div className="container mx-auto flex justify-center gap-10 py-3 font-medium text-red-900 text-sm sm:text-base">
+        <Link
+          to="/"
+          className="hover:text-red-700 hover:underline underline-offset-4 transition"
+        >
           Home
         </Link>
-        <Link to="/shop" className=" text-yellow-100 hover:underline font-bold ml-3">
+        <Link
+          to="/shop"
+          className="hover:text-red-700 hover:underline underline-offset-4 transition"
+        >
           Shop
         </Link>
-        <Link to="/about" className=" text-yellow-100  hover:underline font-bold ml-3">
+        <Link
+          to="/about"
+          className="hover:text-red-700 hover:underline underline-offset-4 transition"
+        >
           About
         </Link>
-        <Link to="/blog" className=" text-yellow-100 hover:underline font-bold ml-3">
-          Blog
-        </Link>
-        <Link to="/contact" className=" text-yellow-100 hover:underline font-bold ml-3">
+        <Link
+          to="/contact"
+          className="hover:text-red-700 hover:underline underline-offset-4 transition"
+        >
           Contact
         </Link>
       </div>

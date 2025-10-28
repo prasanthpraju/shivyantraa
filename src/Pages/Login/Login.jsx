@@ -4,19 +4,13 @@ import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    Email: "",
-    Password: "",
-  });
+  const [formData, setFormData] = useState({ Email: "", Password: "" });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  // Handle input change
-  const handleChange = (e) => {
+  const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
-  // Handle login submit
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -24,93 +18,74 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        "https://shivyantra.onrender.com/api/login", // 🔥 replace with your backend route
+        "https://shivyantra.onrender.com/api/login",
         formData,
         { headers: { "Content-Type": "application/json" } }
       );
-
-      setLoading(false);
+      localStorage.setItem("token", res.data.token);
       setMessage("✅ Login Successful!");
-      localStorage.setItem("token", res.data.token); // Save JWT or session token if backend sends one
-
-      // Redirect to homepage or dashboard
-      setTimeout(() => navigate("/"), 1500);
+      setTimeout(() => navigate("/"), 1000);
     } catch (err) {
+      setMessage("❌ Invalid credentials. Please try again.");
+    } finally {
       setLoading(false);
-      setMessage(
-        err.response?.data?.message ||
-          "❌ Invalid email or password. Please try again."
-      );
     }
   };
 
   return (
-    <div className="min-h-screen bg-red-50 flex items-center justify-center px-4 py-10">
-      <div className="bg-white w-full max-w-md rounded-2xl shadow-xl p-8 border border-red-100">
-        <h2 className="text-3xl font-bold text-center text-red-900 mb-6 uppercase">
+    <div className="min-h-screen bg-red-50 flex items-center justify-center">
+      <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+        <h2 className="text-3xl font-bold text-red-900 text-center mb-4">
           Login
         </h2>
 
         {message && (
-          <div
-            className={`text-center mb-4 font-medium ${
-              message.startsWith("✅")
-                ? "text-green-700"
-                : "text-red-700"
+          <p
+            className={`text-center mb-3 ${
+              message.startsWith("✅") ? "text-green-600" : "text-red-600"
             }`}
           >
             {message}
-          </div>
+          </p>
         )}
 
         <form onSubmit={handleLogin} className="space-y-5">
-          <div>
-            <label className="block text-gray-700 font-medium mb-1">
-              Email Address
-            </label>
-            <input
-              type="email"
-              name="Email"
-              required
-              value={formData.Email}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-900 focus:outline-none"
-            />
-          </div>
-
-          <div>
-            <label className="block text-gray-700 font-medium mb-1">
-              Password
-            </label>
-            <input
-              type="password"
-              name="Password"
-              required
-              value={formData.Password}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-900 focus:outline-none"
-            />
-          </div>
-
+          <input
+            type="email"
+            name="Email"
+            placeholder="Email"
+            value={formData.Email}
+            onChange={handleChange}
+            className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-900 outline-none"
+            required
+          />
+          <input
+            type="password"
+            name="Password"
+            placeholder="Password"
+            value={formData.Password}
+            onChange={handleChange}
+            className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-900 outline-none"
+            required
+          />
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-red-900 text-yellow-100 font-semibold uppercase py-2 rounded-lg hover:bg-red-800 transition-all duration-300 cursor-pointer"
+            className="w-full bg-red-900 text-yellow-100 font-semibold py-2 rounded-lg hover:bg-red-800 transition-all"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
-
-          <p className="text-center text-sm mt-3 text-gray-700">
-            Don’t have an account?{" "}
-            <button
-              type="button"
-              onClick={() => navigate("/register")}
-              className="text-red-900 font-semibold hover:underline"
-            >
-              Register here
-            </button>
-          </p>
         </form>
+
+        <p className="text-center mt-4 text-sm text-gray-700">
+          Don’t have an account?{" "}
+          <span
+            onClick={() => navigate("/register")}
+            className="text-red-900 font-semibold cursor-pointer hover:underline"
+          >
+            Register here
+          </span>
+        </p>
       </div>
     </div>
   );

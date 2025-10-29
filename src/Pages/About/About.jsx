@@ -7,7 +7,7 @@ const About = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-white text-gray-900">
+    <div className="min-h-screen bg-yellow-50 text-gray-900">
       {/* ===== Banner Section ===== */}
       <section className="relative w-full aspect-[16/5] bg-cover bg-center"
         style={{backgroundImage:`url(${rudraksha})`}}

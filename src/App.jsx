@@ -16,6 +16,8 @@ import ReplacementPolicy from "./Insights/ReplacementPolicy";
 import Register from "./Pages/Login/Register";
 import ShippingPolicy from "./Insights/ShippingPolicy";
 import StrategicVision from "./Insights/StrategicVision";
+import Blog from "./Pages/Blog/Blog";
+import BlogDetail from "./Pages/Blog/BlogDetail";
 
 const App = () => {
   return (
@@ -30,6 +32,8 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
+        <Route path="/blog" element={<Blog/>}/>
+        <Route path="/blog/:id" element={<BlogDetail/>}/>
         <Route path="/cancellationPolicy" element={<CancellationPolicy />} />
         <Route path="/replacementPolicy" element={<ReplacementPolicy />} />
         <Route path="/shippingPolicy" element={<ShippingPolicy />} />

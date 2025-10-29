@@ -5,6 +5,7 @@ import {
   ArrowRightOnRectangleIcon,
   PowerIcon,
 } from "@heroicons/react/24/outline";
+import swl from "sweetalert2"
 
 const TopNav = () => {
   const navigate = useNavigate();
@@ -16,8 +17,19 @@ const TopNav = () => {
   useEffect(() => {
     const handleAuthChange = () => {
       setIsLoggedIn(!!localStorage.getItem("token"));
-    };
 
+      if (setIsLoggedIn){
+        const username = localStorage.getItem("username") || "user";
+        swl.fire({
+          icon:"success",
+          title:`Welcome, ${username}!`,
+          text:"You have successfully logged in.",
+          showConfirmButton: false,
+          timer:1500,
+        })
+      }
+    };
+  
     window.addEventListener("authChange", handleAuthChange);
     window.addEventListener("storage", handleAuthChange);
 
@@ -32,6 +44,13 @@ const TopNav = () => {
   };
 
   const handleLogout = () => {
+    swl.fire({
+      icon:"info",
+      title:"Logged Out",
+      text:"You have been successfully Logged out!",
+      showConfirmButton:false,
+      timer:1500,
+    })
     localStorage.removeItem("token");
     window.dispatchEvent(new Event("authChange")); // ✅ tell navbar to update
     navigate("/");
@@ -40,7 +59,7 @@ const TopNav = () => {
   return (
     <>
       {/* ======= MAIN NAVBAR ======= */}
-      <nav className="bg-red-900 text-yellow-100 shadow-md py-3">
+      <nav className= "bg-gradient-to-r from-red-950 via-red-900 to-red-950 text-yellow-100 shadow-lg py-3 border-b border-yellow-400/20 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center flex-wrap gap-4">
             {/* ==== LEFT SECTION ==== */}
@@ -69,7 +88,7 @@ const TopNav = () => {
               {/* Brand name */}
               <h1
                 onClick={() => navigate("/")}
-                className="text-2xl font-extrabold text-yellow-100 tracking-wide text-center w-full sm:w-auto cursor-pointer"
+                className=" text-3xl font-extrabold bg-gradient-to-r from-yellow-300 via-yellow-100 to-yellow-300 bg-clip-text text-transparent tracking-widest drop-shadow-md cursor-pointer"
               >
                 Shivyantra
               </h1>
@@ -100,7 +119,7 @@ const TopNav = () => {
               {isLoggedIn ? (
                 <button
                   onClick={handleLogout}
-                  className="flex items-center gap-1 hover:text-yellow-300 transition-all"
+                  className="flex items-center gap-1 hover:text-yellow-300 transition-all cursor-pointer"
                 >
                   <PowerIcon className="w-5 h-5" />
                   Logout

@@ -1,19 +1,32 @@
- import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     Name: "",
     Email: "",
-    MobileNumber: "",
+    MobileNumber: "", 
     Password: "",
   });
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState(1); // Step 1 = Register, Step 2 = Verify OTP
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [timer, setTimer] = useState(0);
+
+  useEffect(() => {
+  let interval;
+  if (timer > 0) {
+    interval = setInterval(() => {
+      setTimer((prev) => prev - 1);
+    }, 1000);
+  }
+  return () => clearInterval(interval);
+}, [timer]);
+
 
   // Handle Input
   const handleChange = (e) => {
@@ -25,12 +38,23 @@ const Register = () => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
-
+    setTimer(30);
     try {
-      await axios.post("https://shivyantra.onrender.com/api/register", formData);
+      await axios.post(
+        "https://shivyantra.onrender.com/api/register",
+        formData
+      );
       setLoading(false);
       setStep(2);
       setMessage("✅ OTP sent successfully! Please check your email.");
+
+      Swal.fire({
+        icon: "success",
+        title: "Account Created!",
+        text: "Your account has been created successfully. Please verify your OTP.",
+        showConfirmButton: false,
+        timer: 2000,
+      });
     } catch (err) {
       setLoading(false);
       const errorMsg =
@@ -46,13 +70,23 @@ const Register = () => {
     setMessage("");
 
     try {
-      await axios.post("https://shivyantra.onrender.com/api/register/otp-verify", {
-        Email: formData.Email,
-        Otp: otp,
-      });
+      await axios.post(
+        "https://shivyantra.onrender.com/api/register/otp-verify",
+        {
+          Email: formData.Email,
+          Otp: otp,
+        }
+      );
 
       setLoading(false);
-      setMessage("✅ OTP Verified! Redirecting...");
+      setMessage("✅ OTP Verified!");
+      Swal.fire({
+        icon: "success",
+        title: "Verification Successful!",
+        text: "Your account has been successfully verified.",
+        showConfirmButton: false,
+        timer: 2000,
+      });
       setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
       setLoading(false);
@@ -68,9 +102,12 @@ const Register = () => {
     setMessage("");
 
     try {
-      await axios.post("https://shivyantra.onrender.com/api/register/resend-otp", {
-        Email: formData.Email,
-      });
+      await axios.post(
+        "https://shivyantra.onrender.com/api/register/resend-otp",
+        {
+          Email: formData.Email,
+        }
+      );
       setLoading(false);
       setMessage("🔁 OTP resent successfully!");
     } catch (err) {

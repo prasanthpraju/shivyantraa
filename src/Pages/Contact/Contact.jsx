@@ -26,7 +26,8 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact">
+    // ✅ Entire page now has yellow background
+    <section id="contact" className="min-h-screen bg-yellow-50">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-10">
         <div className="mb-6 text-center">
           <h1 className="text-base font-semibold uppercase tracking-wider text-black">
@@ -125,7 +126,7 @@ const Contact = () => {
                 />
                 <button
                   type="submit"
-                  className="w-full bg-red-900  text-yellow-100 font-semibold uppercase px-4 py-2 rounded cursor-pointer border border-transparent hover:scale-[1.03] hover:bg-red-800 transition-all duration-300"
+                  className="w-full bg-red-900 text-yellow-100 font-semibold uppercase px-4 py-2 rounded cursor-pointer border border-transparent hover:scale-[1.03] hover:bg-red-800 transition-all duration-300"
                 >
                   Send message
                 </button>
@@ -133,17 +134,20 @@ const Contact = () => {
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Google Map */}
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.7610711104744!2d80.21254447575778!3d13.050874787271859!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5267f622160271%3A0x3149fc03560d447!2sJGN%20Technologies!5e0!3m2!1sen!2sin!4v1743079683877!5m2!1sen!2sin"
-        width="100%"
-        height="400"
-        style={{ padding: "0px 40px 60px 40px" }}
-        loading="lazy"
-        title="Google Map"
-      ></iframe>
+        {/* Google Map */}
+        <div className="mt-10">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.7610711104744!2d80.21254447575778!3d13.050874787271859!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5267f622160271%3A0x3149fc03560d447!2sJGN%20Technologies!5e0!3m2!1sen!2sin!4v1743079683877!5m2!1sen!2sin"
+            width="100%"
+            height="400"
+            style={{ border: "0" }}
+            loading="lazy"
+            title="Google Map"
+            className="rounded-lg shadow-md"
+          ></iframe>
+        </div>
+      </div>
     </section>
   );
 };

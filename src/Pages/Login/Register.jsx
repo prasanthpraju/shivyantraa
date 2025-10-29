@@ -173,7 +173,7 @@ const Register = () => {
               <button
                 type="button"
                 onClick={() => navigate("/login")}
-                className="text-red-900 font-semibold hover:underline"
+                className="text-red-900 font-semibold hover:underline cursor-pointer "
               >
                 Login here
               </button>

@@ -18,6 +18,7 @@ import ShippingPolicy from "./Insights/ShippingPolicy";
 import StrategicVision from "./Insights/StrategicVision";
 import Blog from "./Pages/Blog/Blog";
 import BlogDetail from "./Pages/Blog/BlogDetail";
+import ForgotPassword from "./Pages/Login/ForgotPassword";
 
 const App = () => {
   return (
@@ -39,6 +40,7 @@ const App = () => {
         <Route path="/shippingPolicy" element={<ShippingPolicy />} />
         <Route path="/strategicVision" element={<StrategicVision />} />
         <Route path="register" element={<Register/>}/>
+        <Route path="forgotpassword" element={<ForgotPassword/>}/>
       </Routes>
       <Footer />
     </div>

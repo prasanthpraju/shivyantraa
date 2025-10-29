@@ -23,15 +23,12 @@ const Login = () => {
         { headers: { "Content-Type": "application/json" } }
       );
 
-      // ✅ Save token and reload navbar state
       localStorage.setItem("token", res.data.token);
       window.dispatchEvent(new Event("authChange"));
 
       setMessage("✅ Login Successful!");
       setTimeout(() => navigate("/"), 1200);
     } catch (err) {
-      console.error("Login Error:", err.response?.data || err.message);
-
       const msg =
         err.response?.data?.message ||
         "❌ Invalid credentials. Please try again.";
@@ -63,7 +60,7 @@ const Login = () => {
             <label className="block text-gray-700 mb-1 font-medium">Email</label>
             <input
               type="email"
-              name="Email" // ✅ Fixed here
+              name="Email"
               placeholder="Enter your email"
               value={formData.Email}
               onChange={handleChange}
@@ -73,16 +70,29 @@ const Login = () => {
           </div>
 
           <div>
-            <label className="block text-gray-700 mb-1 font-medium">Password</label>
+            <label className="block text-gray-700 mb-1 font-medium">
+              Password
+            </label>
             <input
               type="password"
-              name="Password" // ✅ Fixed here
+              name="Password"
               placeholder="Enter your password"
               value={formData.Password}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-900 outline-none"
               required
             />
+          </div>
+
+          {/* 🔹 Forgot Password Link */}
+          <div className="text-right">
+            <button
+              type="button"
+              onClick={() => navigate("/forgotpassword")}
+              className="text-sm text-red-900 hover:underline font-semibold cursor-pointer"
+            >
+              Forgot Password?
+            </button>
           </div>
 
           <button

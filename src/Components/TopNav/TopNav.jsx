@@ -59,7 +59,7 @@ const TopNav = () => {
   return (
     <>
       {/* ======= MAIN NAVBAR ======= */}
-      <nav className= "bg-gradient-to-r from-red-950 via-red-900 to-red-950 text-yellow-100 shadow-lg py-3 border-b border-yellow-400/20 backdrop-blur-md">
+      <nav className= "   via-red-900 bg-red-800 text-yellow-200 shadow-lg py-3 ">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center flex-wrap gap-4">
             {/* ==== LEFT SECTION ==== */}
@@ -107,7 +107,7 @@ const TopNav = () => {
                 />
                 <button
                   onClick={handleSearch}
-                  className="bg-yellow-400 text-red-900 px-5 font-semibold hover:bg-yellow-300 transition-all"
+                  className="bg-yellow-200 text-red-900 px-5 font-semibold hover:bg-yellow-100 transition-all"
                 >
                   Search
                 </button>

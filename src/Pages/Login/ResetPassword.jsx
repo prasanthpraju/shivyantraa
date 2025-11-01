@@ -1,28 +1,39 @@
- import React, { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
-const ForgotPassword = () => {
+const ResetPassword = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const [params] = useSearchParams();
+  const email = params.get("email");
+  const code = params.get("code");
+
+  const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSendLink = async (e) => {
+  const handleResetPassword = async (e) => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
 
-    if (!email || !email.includes("@")) {
-      setMessage("❌ Please enter a valid email address.");
+    if (!newPassword || newPassword.length < 6) {
+      setMessage("❌ Password must be at least 6 characters long.");
       setLoading(false);
       return;
     }
 
+    console.log("Email:", email);
+    console.log("Code:", code);
+
     try {
       const res = await axios.post(
-        "https://shivyantra.onrender.com/api/forgot-password",
-        { Email: email.trim().toLowerCase() },
+        "https://shivyantra.onrender.com/api/reset-password",
+        {
+          Email: email,
+          code,
+          newPassword: newPassword,
+        },
         {
           headers: {
             "Content-Type": "application/json",
@@ -31,14 +42,15 @@ const ForgotPassword = () => {
         }
       );
 
-      console.log("Forgot password response:", res.data);
-      setMessage("✅ Password reset link has been sent to your email.");
+      console.log("Reset password response:", res.data);
+      setMessage("✅ Password reset successful! Redirecting to login...");
+      setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
-      console.error("Forgot password error:", err.response?.data || err.message);
+      console.error("Reset password error:", err.response?.data || err.message);
       const errMsg =
         err.response?.data?.message ||
         err.response?.data?.error?.message ||
-        "❌ Failed to send reset link. Please try again.";
+        "❌ Failed to reset password. Please try again.";
       setMessage(`❌ ${errMsg}`);
     } finally {
       setLoading(false);
@@ -49,7 +61,7 @@ const ForgotPassword = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-red-100 to-red-50 px-4">
       <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md border border-red-100">
         <h2 className="text-3xl font-bold text-red-900 text-center mb-6">
-          Forgot Password
+          Reset Password
         </h2>
 
         {message && (
@@ -62,16 +74,20 @@ const ForgotPassword = () => {
           </p>
         )}
 
-        <form onSubmit={handleSendLink} className="space-y-5">
+        <p className="text-gray-600 text-sm mb-3 text-center">
+          Resetting password for <strong>{email}</strong>
+        </p>
+
+        <form onSubmit={handleResetPassword} className="space-y-5">
           <div>
             <label className="block text-gray-700 font-medium mb-1">
-              Email Address
+              New Password
             </label>
             <input
-              type="email"
-              placeholder="Enter your registered email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="password"
+              placeholder="Enter new password (min. 6 characters)"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
               required
               className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-900 outline-none"
             />
@@ -82,7 +98,7 @@ const ForgotPassword = () => {
             disabled={loading}
             className="w-full bg-red-900 text-yellow-100 font-semibold py-2 rounded-lg hover:bg-red-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? "Sending Link..." : "Send Reset Link"}
+            {loading ? "Resetting..." : "Reset Password"}
           </button>
         </form>
 
@@ -100,4 +116,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default ResetPassword;

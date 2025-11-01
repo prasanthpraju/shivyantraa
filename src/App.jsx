@@ -19,6 +19,7 @@ import StrategicVision from "./Insights/StrategicVision";
 import Blog from "./Pages/Blog/Blog";
 import BlogDetail from "./Pages/Blog/BlogDetail";
 import ForgotPassword from "./Pages/Login/ForgotPassword";
+import ResetPassword from "./Pages/Login/ResetPassword";
 
 const App = () => {
   return (
@@ -40,7 +41,8 @@ const App = () => {
         <Route path="/shippingPolicy" element={<ShippingPolicy />} />
         <Route path="/strategicVision" element={<StrategicVision />} />
         <Route path="register" element={<Register/>}/>
-        <Route path="forgotpassword" element={<ForgotPassword/>}/>
+        <Route path="forgot-password" element={<ForgotPassword/>}/>
+        <Route path="reset-password" element={<ResetPassword/>}/>
       </Routes>
       <Footer />
     </div>

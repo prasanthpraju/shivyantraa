@@ -23,9 +23,16 @@ const Login = () => {
         { headers: { "Content-Type": "application/json" } }
       );
 
-      localStorage.setItem("token", res.data.token);
-      window.dispatchEvent(new Event("authChange"));
+      // ✅ Adjust based on your backend response
+      const { refresh_token } = res.data?.user;
 
+      // ✅ Store both tokens locally
+      localStorage.setItem("refresh_token", refresh_token);
+      localStorage.setItem("Email", formData.Email);
+      localStorage.setItem("isLoginned","true")
+
+      // Trigger global auth event
+      window.dispatchEvent(new Event("authChange"));
       setMessage("✅ Login Successful!");
       setTimeout(() => navigate("/"), 1200);
     } catch (err) {
@@ -36,7 +43,7 @@ const Login = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }; // ✅ this closing brace was missing!
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-red-100 to-red-50 px-4">

@@ -1,35 +1,31 @@
- import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   UserPlusIcon,
   ArrowRightOnRectangleIcon,
   PowerIcon,
 } from "@heroicons/react/24/outline";
-import swl from "sweetalert2"
+import swal from "sweetalert2";
+import axios from "axios";
 
 const TopNav = () => {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    !!localStorage.getItem("refresh_token")
+  );
 
-  // ✅ Detect login/logout instantly across app
+  // ✅ Detect login/logout instantly across the app
   useEffect(() => {
     const handleAuthChange = () => {
-      setIsLoggedIn(!!localStorage.getItem("token"));
-
-      if (setIsLoggedIn){
-        const username = localStorage.getItem("username") || "user";
-        swl.fire({
-          icon:"success",
-          title:`Welcome, ${username}!`,
-          text:"You have successfully logged in.",
-          showConfirmButton: false,
-          timer:1500,
-        })
-      }
+      const loggedIn = !!localStorage.getItem("refresh_token");
+      setIsLoggedIn(loggedIn);
     };
-  
+
+    // Check auth status on component mount
+    handleAuthChange();
+
     window.addEventListener("authChange", handleAuthChange);
     window.addEventListener("storage", handleAuthChange);
 
@@ -43,23 +39,120 @@ const TopNav = () => {
     if (searchTerm.trim()) navigate("/shop");
   };
 
-  const handleLogout = () => {
-    swl.fire({
-      icon:"info",
-      title:"Logged Out",
-      text:"You have been successfully Logged out!",
-      showConfirmButton:false,
-      timer:1500,
-    })
-    localStorage.removeItem("token");
-    window.dispatchEvent(new Event("authChange")); // ✅ tell navbar to update
-    navigate("/");
+  const handleLogout = async () => {
+    try {
+      const token = localStorage.getItem("refresh_token");
+      const email = localStorage.getItem("Email");
+      const userData = localStorage.getItem("user");
+
+      console.log("Logout attempt - Email:", email);
+      console.log("Logout attempt - Token:", token);
+
+      // Prepare user data for backend update
+      let user;
+      if (userData) {
+        try {
+          user = JSON.parse(userData);
+        } catch (e) {
+          console.error("Error parsing user data:", e);
+        }
+      }
+
+      // Call logout API if we have the necessary data
+      if (email && token) {
+        try {
+          await axios.post(
+            "https://shivyantra.onrender.com/api/logout",
+            { 
+              email: email,
+              refresh_token: token
+            },
+            { 
+              headers: { 
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+              } 
+            }
+          );
+          console.log("✅ Logout API call successful");
+        } catch (apiError) {
+          console.warn("⚠️ Logout API call failed, but continuing with client-side logout:", apiError);
+          // Continue with client-side logout even if API fails
+        }
+      } else {
+        console.warn("❌ Missing email or token, performing client-side logout only");
+      }
+
+      // 🔹 ALWAYS clear frontend storage (even if API call fails)
+      const itemsToRemove = [
+        "refresh_token", 
+        "username", 
+        "Email", 
+        "isLoginned", 
+        "user",
+        "token",
+        "auth_token"
+      ];
+
+      itemsToRemove.forEach(item => {
+        localStorage.removeItem(item);
+        sessionStorage.removeItem(item); // Clear sessionStorage too for safety
+      });
+
+      // 🔹 Trigger auth change for UI update
+      window.dispatchEvent(new Event("authChange"));
+      setIsLoggedIn(false);
+
+      // 🔹 Show success message
+      await swal.fire({
+        icon: "success",
+        title: "Logged Out!",
+        text: "You have been successfully logged out.",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      // 🔹 Close mobile menu if open
+      setIsMenuOpen(false);
+
+      // 🔹 Redirect to homepage and reload to reset app state
+      navigate("/", { replace: true });
+      
+      // Small delay before reload to ensure navigation happens
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
+
+    } catch (error) {
+      console.error("❌ Unexpected error during logout:", error);
+      
+      // 🔹 Emergency cleanup - ensure user is logged out even if something goes wrong
+      localStorage.clear();
+      sessionStorage.clear();
+      
+      window.dispatchEvent(new Event("authChange"));
+      setIsLoggedIn(false);
+      setIsMenuOpen(false);
+
+      swal.fire({
+        icon: "info",
+        title: "Logged Out",
+        text: "You have been logged out from the application.",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      navigate("/", { replace: true });
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
+    }
   };
 
   return (
     <>
       {/* ======= MAIN NAVBAR ======= */}
-      <nav className= "   via-red-900 bg-red-800 text-yellow-200 shadow-lg py-3 ">
+      <nav className="via-red-900 bg-red-800 text-yellow-200 shadow-lg py-3">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center flex-wrap gap-4">
             {/* ==== LEFT SECTION ==== */}
@@ -68,6 +161,7 @@ const TopNav = () => {
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="text-yellow-100 hover:text-yellow-300 transition sm:hidden"
+                aria-label="Toggle menu"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -88,7 +182,7 @@ const TopNav = () => {
               {/* Brand name */}
               <h1
                 onClick={() => navigate("/")}
-                className=" text-3xl font-extrabold bg-gradient-to-r from-yellow-300 via-yellow-100 to-yellow-300 bg-clip-text text-transparent tracking-widest drop-shadow-md cursor-pointer"
+                className="text-3xl font-extrabold bg-gradient-to-r from-yellow-300 via-yellow-100 to-yellow-300 bg-clip-text text-transparent tracking-widest drop-shadow-md cursor-pointer"
               >
                 Shivyantra
               </h1>
@@ -227,10 +321,7 @@ const TopNav = () => {
             <div className="mt-4 border-t border-yellow-300 pt-3">
               {isLoggedIn ? (
                 <button
-                  onClick={() => {
-                    handleLogout();
-                    setIsMenuOpen(false);
-                  }}
+                  onClick={handleLogout}
                   className="flex items-center gap-2 text-yellow-100 hover:text-yellow-300 w-full text-left"
                 >
                   <PowerIcon className="w-5 h-5" />
@@ -241,17 +332,17 @@ const TopNav = () => {
                   <Link
                     to="/login"
                     onClick={() => setIsMenuOpen(false)}
-                    className="block py-2 hover:text-yellow-300"
+                    className="flex items-center gap-2 py-2 hover:text-yellow-300"
                   >
-                    <ArrowRightOnRectangleIcon className="w-5 h-5 inline-block mr-1" />
+                    <ArrowRightOnRectangleIcon className="w-5 h-5" />
                     Login
                   </Link>
                   <Link
                     to="/register"
                     onClick={() => setIsMenuOpen(false)}
-                    className="block py-2 hover:text-yellow-300"
+                    className="flex items-center gap-2 py-2 hover:text-yellow-300"
                   >
-                    <UserPlusIcon className="w-5 h-5 inline-block mr-1" />
+                    <UserPlusIcon className="w-5 h-5" />
                     Register
                   </Link>
                 </>

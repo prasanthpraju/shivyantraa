@@ -139,7 +139,7 @@ const Footer = () => {
           <span className="opacity-50">© 2024 Copyright: </span>
           <a
             className="font-semibold uppercase hover:underline"
-            href="https://shriworks.com/"
+            href="https://shivyantra.com/"
             target="_blank"
             rel="noreferrer"
           >

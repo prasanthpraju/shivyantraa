@@ -1,4 +1,4 @@
- import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -28,18 +28,60 @@ const ForgotPassword = () => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
+    
+    // Email validation
+    if (!email || !email.includes('@')) {
+      setMessage("❌ Please enter a valid email address.");
+      setLoading(false);
+      return;
+    }
+
     try {
+      console.log("Sending OTP request for email:", email);
+      
       const res = await axios.post(
         "https://shivyantra.onrender.com/api/forgot-password",
-        { Email: email },
-        { headers: { "Content-Type": "application/json" } }
+        { 
+          Email: email.trim().toLowerCase() 
+        },
+        { 
+          headers: { 
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          } 
+        }
       );
 
+      console.log("OTP response:", res.data);
       setMessage("✅ OTP sent to your registered email.");
       setStep(2);
       setTimer(60); // 60s timer for resend
     } catch (err) {
-      setMessage(err.response?.data?.message || "❌ Failed to send OTP.");
+      console.error("OTP Error details:", {
+        status: err.response?.status,
+        data: err.response?.data,
+        message: err.message
+      });
+      
+      // More specific error messages
+      if (err.response?.status === 400) {
+        const errorMsg = err.response?.data?.message || err.response?.data?.error?.message;
+        if (errorMsg) {
+          setMessage(`❌ ${errorMsg}`);
+        } else if (err.response?.data?.error?.name === "ValidationError") {
+          setMessage("❌ Invalid email format. Please check your email address.");
+        } else {
+          setMessage("❌ Email not found or invalid request.");
+        }
+      } else if (err.response?.status === 404) {
+        setMessage("❌ Email not found in our system.");
+      } else if (err.response?.status === 429) {
+        setMessage("❌ Too many attempts. Please try again later.");
+      } else if (err.code === "NETWORK_ERROR" || err.message === "Network Error") {
+        setMessage("❌ Network error. Please check your connection.");
+      } else {
+        setMessage("❌ Failed to send OTP. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -51,17 +93,56 @@ const ForgotPassword = () => {
     setLoading(true);
     setMessage("");
 
+    // Validation
+    if (!otp || otp.length < 4) {
+      setMessage("❌ Please enter a valid OTP.");
+      setLoading(false);
+      return;
+    }
+
+    if (!newPassword || newPassword.length < 6) {
+      setMessage("❌ Password must be at least 6 characters long.");
+      setLoading(false);
+      return;
+    }
+
     try {
-      await axios.post(
+      const res = await axios.post(
         "https://shivyantra.onrender.com/api/reset-password",
-        { Email: email, otp, newPassword },
-        { headers: { "Content-Type": "application/json" } }
+        { 
+          Email: email.trim().toLowerCase(), 
+          otp: otp.trim(), 
+          newPassword: newPassword 
+        },
+        { 
+          headers: { 
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          } 
+        }
       );
 
-      setMessage("✅ Password reset successful! Redirecting...");
-      setTimeout(() => navigate("/login"), 2000);
+      console.log("Reset password response:", res.data);
+      setMessage("✅ Password reset successful! Redirecting to login...");
+      
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
     } catch (err) {
-      setMessage(err.response?.data?.message || "❌ Invalid or expired OTP.");
+      console.error("Reset Password Error:", err.response?.data || err.message);
+      
+      if (err.response?.status === 400) {
+        const errorMsg = err.response?.data?.message || err.response?.data?.error?.message;
+        if (errorMsg) {
+          setMessage(`❌ ${errorMsg}`);
+        } else {
+          setMessage("❌ Invalid or expired OTP.");
+        }
+      } else if (err.response?.status === 404) {
+        setMessage("❌ Session expired. Please request a new OTP.");
+      } else {
+        setMessage("❌ Failed to reset password. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -72,16 +153,25 @@ const ForgotPassword = () => {
     if (timer > 0) return;
     setLoading(true);
     setMessage("");
+    
     try {
       await axios.post(
         "https://shivyantra.onrender.com/api/forgot-password",
-        { Email: email },
-        { headers: { "Content-Type": "application/json" } }
+        { 
+          Email: email.trim().toLowerCase() 
+        },
+        { 
+          headers: { 
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          } 
+        }
       );
       setMessage("🔁 OTP resent successfully!");
       setTimer(60);
     } catch (err) {
-      setMessage("❌ Failed to resend OTP.");
+      console.error("Resend OTP Error:", err.response?.data || err.message);
+      setMessage("❌ Failed to resend OTP. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -120,12 +210,15 @@ const ForgotPassword = () => {
                 required
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-900 outline-none"
               />
+              <p className="text-xs text-gray-500 mt-1">
+                Make sure this is the email you used to register your account.
+              </p>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-red-900 cursor-pointer text-yellow-100 font-semibold py-2 rounded-lg hover:bg-red-800 transition-all"
+              className="w-full bg-red-900 text-yellow-100 font-semibold py-2 rounded-lg hover:bg-red-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? "Sending OTP..." : "Send OTP"}
             </button>
@@ -136,9 +229,10 @@ const ForgotPassword = () => {
               <label className="block text-gray-700 font-medium mb-1">OTP</label>
               <input
                 type="text"
-                placeholder="Enter the OTP sent to your email"
+                placeholder="Enter the 6-digit OTP"
                 value={otp}
-                onChange={(e) => setOtp(e.target.value)}
+                onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))} // Only numbers
+                maxLength={6}
                 required
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-900 outline-none"
               />
@@ -146,12 +240,14 @@ const ForgotPassword = () => {
                 {timer > 0 ? (
                   <span>⏳ Resend OTP in {timer}s</span>
                 ) : (
-                  <span
+                  <button
+                    type="button"
                     onClick={handleResendOtp}
-                    className="text-red-900 font-semibold cursor-pointer hover:underline"
+                    disabled={loading}
+                    className="text-red-900 font-semibold hover:underline disabled:opacity-50"
                   >
                     🔁 Resend OTP
-                  </span>
+                  </button>
                 )}
               </div>
             </div>
@@ -162,9 +258,10 @@ const ForgotPassword = () => {
               </label>
               <input
                 type="password"
-                placeholder="Enter your new password"
+                placeholder="Enter your new password (min. 6 characters)"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
+                minLength={6}
                 required
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-900 outline-none"
               />
@@ -173,9 +270,9 @@ const ForgotPassword = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-red-900 cursor-pointer text-yellow-100 font-semibold py-2 rounded-lg hover:bg-red-800 transition-all"
+              className="w-full bg-red-900 text-yellow-100 font-semibold py-2 rounded-lg hover:bg-red-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? "Resetting..." : "Reset Password"}
+              {loading ? "Resetting Password..." : "Reset Password"}
             </button>
           </form>
         )}

@@ -1,4 +1,4 @@
- import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   UserPlusIcon,
@@ -58,12 +58,18 @@ const TopNav = () => {
         }
       }
 
-      ["refresh_token", "username", "Email", "isLoginned", "user", "token", "auth_token"].forEach(
-        (i) => {
-          localStorage.removeItem(i);
-          sessionStorage.removeItem(i);
-        }
-      );
+      [
+        "refresh_token",
+        "username",
+        "Email",
+        "isLoginned",
+        "user",
+        "token",
+        "auth_token",
+      ].forEach((i) => {
+        localStorage.removeItem(i);
+        sessionStorage.removeItem(i);
+      });
 
       window.dispatchEvent(new Event("authChange"));
       setIsLoggedIn(false);
@@ -162,6 +168,19 @@ const TopNav = () => {
                   </>
                 )}
               </div>
+
+              {/* 👇 ADD THIS PROFILE ICON HERE 👇 */}
+              {isLoggedIn && (
+                <div
+                  className="w-9 h-9 rounded-full bg-yellow-300 text-red-900 flex items-center justify-center font-bold cursor-pointer hover:bg-yellow-200 transition-all"
+                  title={localStorage.getItem("username") || "User"}
+                  onClick={() => navigate("/profile")}
+                >
+                  {(localStorage.getItem("username") || "u")
+                    .charAt(0)
+                    .toUpperCase()}
+                </div>
+              )}
 
               {/* Cart icon */}
               <Link

@@ -12,38 +12,42 @@
       setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const handleLogin = async (e) => {
-      e.preventDefault();
-      setLoading(true);
-      setMessage("");
+  e.preventDefault();
+  setLoading(true);
+  setMessage("");
 
-      try {
-        const res = await axios.post(
-          "https://shivyantra.onrender.com/api/login",
-          formData,
-          { headers: { "Content-Type": "application/json" } }
-        );
+  try {
+    const res = await axios.post(
+      "https://shivyantra.onrender.com/api/login",
+      formData,
+      { headers: { "Content-Type": "application/json" } }
+    );
 
-        // ✅ Adjust based on your backend response
-        const { refresh_token } = res.data?.user;
+    // ✅ Extract data safely
+    const user = res?.data?.user || {};
+    const token = res?.data?.refresh_token || user.refresh_token || "";
 
-        // ✅ Store both tokens locally
-        localStorage.setItem("refresh_token", refresh_token);
-        localStorage.setItem("Email", formData.Email);
-        localStorage.setItem("isLoginned","true")
+    // ✅ Store data (no 'if')
+    localStorage.setItem("refresh_token", token);
+    localStorage.setItem("Email", formData.Email || user.Email || "");
+    localStorage.setItem("isLoginned", "true");
+    localStorage.setItem("username", user.username || user.name || "User");
 
-        // Trigger global auth event
-        window.dispatchEvent(new Event("authChange"));
-        setMessage("✅ Login Successful!");
-        setTimeout(() => navigate("/"), 1200);
-      } catch (err) {
-        const msg =
-          err.response?.data?.message ||
-          "❌ Invalid credentials. Please try again.";
-        setMessage(msg);
-      } finally {
-        setLoading(false);
-      }
-    }; // ✅ this closing brace was missing!
+    // 🔔 Trigger navbar update
+    window.dispatchEvent(new Event("authChange"));
+
+    setMessage("✅ Login Successful!");
+    setTimeout(() => navigate("/"), 1200);
+  } catch (err) {
+    const msg =
+      err.response?.data?.message ||
+      "❌ Invalid credentials. Please try again.";
+    setMessage(msg);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-red-100 to-red-50 px-4">

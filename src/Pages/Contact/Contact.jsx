@@ -1,7 +1,7 @@
  import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { MapPin, Phone, Clock } from "lucide-react";
-import api from "../../Utils/api";
+ 
 
 const Contact = () => {
   const [name, setName] = useState("");

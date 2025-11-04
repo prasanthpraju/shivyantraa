@@ -18,7 +18,7 @@ const blogData = [
   {
     id: 2,
     title: "How to Identify Genuine Rudraksha Beads",
-    image:  blogImg2,
+    image: blogImg2,
     description:
       "With the popularity of Rudraksha increasing, so have counterfeit versions. Learn how to identify real Rudraksha beads using simple yet powerful methods...",
   },
@@ -32,14 +32,14 @@ const blogData = [
   {
     id: 4,
     title: "Importance of Rudraksha in Meditation Practice",
-    image:  blogImg4,
+    image: blogImg4,
     description:
       "Rudraksha helps stabilize the mind during deep meditation, channeling energy effectively for higher awareness and consciousness...",
   },
   {
     id: 5,
     title: "The Science Behind Rudraksha Energy Vibrations",
-    image:  blogImg5,
+    image: blogImg5,
     description:
       "Scientific studies show Rudraksha beads have natural electromagnetic properties that help regulate body energy and reduce stress...",
   },
@@ -56,16 +56,16 @@ const Blog = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-yellow-50 py-12 px-6">
-      <h1 className="text-4xl font-bold text-center text-red-900 mb-10">
+    <div className="min-h-screen bg-[#fdf8f2] py-12 px-6">
+      <h1 className="text-4xl font-bold text-center text-[#4e1f07] mb-10">
         Rudraksha Insights & Guides
       </h1>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
         {blogData.map((blog) => (
           <div
             key={blog.id}
-            onClick={() => navigate(`/blog/${blog.id}`)} // ✅ Navigate to detail page
-            className="cursor-pointer bg-white border border-red-100 rounded-2xl shadow-md hover:shadow-lg transition-transform hover:-translate-y-1"
+            onClick={() => navigate(`/blog/${blog.id}`)}
+            className="cursor-pointer bg-[#fffaf5] border border-[#c8b199] rounded-2xl shadow-md hover:shadow-lg transition-transform hover:-translate-y-1"
           >
             <img
               src={blog.image}
@@ -73,11 +73,11 @@ const Blog = () => {
               className="w-full h-100 object-cover rounded-t-2xl"
             />
             <div className="p-5">
-              <h2 className="text-xl font-semibold text-red-900 mb-2">
+              <h2 className="text-xl font-semibold text-[#4a1d06] mb-2">
                 {blog.title}
               </h2>
-              <p className="text-gray-700 text-sm">{blog.description}</p>
-              <button className=" mt-6 bg-red-900 text-yellow-100 px-4 py-2 rounded-lg hover:bg-red-800 transition-all">
+              <p className="text-[#5a3720] text-sm">{blog.description}</p>
+              <button className="mt-6 bg-[#4a1d06] text-[#fff7e9] px-4 py-2 rounded-lg hover:bg-[#5c2810] transition-all">
                 Read More →
               </button>
             </div>

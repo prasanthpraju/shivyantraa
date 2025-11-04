@@ -11,16 +11,16 @@ import { HiMail } from "react-icons/hi";
 
 const Footer = () => {
   return (
-    <footer className="bg-red-900 text-yellow-100">
+    <footer className="bg-[#310502] text-[#f7f7f7]">
       {/* Main Footer Section */}
       <div className="mx-6 py-10">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* Shivyantra Info */}
           <div>
-            <h6 className="mb-4 font-semibold uppercase text-yellow-300">
+            <h6 className="mb-4 font-semibold uppercase text-[#d4af37]">
               Shivyantra
             </h6>
-            <p className="text-justify text-sm leading-6">
+            <p className="text-justify text-sm leading-6 text-[#f5e9c9]">
               At Shriworks, we specialize in creating exquisite handcrafted
               temple jewelry and artifacts that embody the essence of South
               Indian temple traditions. Our skilled artisans use time-honored
@@ -30,7 +30,7 @@ const Footer = () => {
 
           {/* Insights */}
           <div>
-            <h6 className="mb-4 font-semibold uppercase text-yellow-300">
+            <h6 className="mb-4 font-semibold uppercase text-[#d4af37]">
               Insights
             </h6>
             {[
@@ -39,7 +39,10 @@ const Footer = () => {
               ["Cancellation Policy", "/CancellationPolicy"],
               ["Strategic Vision", "/StrategicVision"],
             ].map(([text, link]) => (
-              <p key={text} className="mb-2 hover:underline">
+              <p
+                key={text}
+                className="mb-2 hover:text-[#d4af37] transition-colors"
+              >
                 <a href={link}>{text}</a>
               </p>
             ))}
@@ -47,7 +50,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h6 className="mb-4 font-semibold uppercase text-yellow-300">
+            <h6 className="mb-4 font-semibold uppercase text-[#d4af37]">
               Quick Links
             </h6>
             {[
@@ -57,7 +60,10 @@ const Footer = () => {
               ["About", "/about"],
               ["Contact", "/contact"],
             ].map(([text, link]) => (
-              <p key={text} className="mb-2 hover:underline">
+              <p
+                key={text}
+                className="mb-2 hover:text-[#d4af37] transition-colors"
+              >
                 <a href={link}>{text}</a>
               </p>
             ))}
@@ -65,25 +71,31 @@ const Footer = () => {
 
           {/* Address & Contact */}
           <div>
-            <h6 className="mb-4 font-semibold uppercase text-yellow-300">
+            <h6 className="mb-4 font-semibold uppercase text-[#d4af37]">
               Address
             </h6>
 
             <p className="mb-3 text-sm flex items-start">
-              <FaMapMarkerAlt className="text-yellow-400 mr-2 mt-1" />
+              <FaMapMarkerAlt className="text-[#d4af37] mr-2 mt-1" />
               242A, Arcot Rd, Vadapalani, Chennai - 600026
             </p>
 
             <p className="mb-3 text-sm flex items-center">
-              <HiMail className="text-yellow-400 mr-2" />
-              <a href="mailto:info@shriworks.com" className="hover:underline">
+              <HiMail className="text-[#d4af37] mr-2" />
+              <a
+                href="mailto:info@shriworks.com"
+                className="hover:text-[#d4af37] transition-colors"
+              >
                 info@shriworks.com
               </a>
             </p>
 
             <p className="mb-3 text-sm flex items-center">
-              <FaPhone className="text-yellow-400 mr-2" />
-              <a href="tel:+919176554626" className="hover:underline">
+              <FaPhone className="text-[#d4af37] mr-2" />
+              <a
+                href="tel:+919176554626"
+                className="hover:text-[#d4af37] transition-colors"
+              >
                 (+91) 91765 54626
               </a>
             </p>
@@ -94,7 +106,7 @@ const Footer = () => {
                 href="https://www.facebook.com/shriworks"
                 target="_blank"
                 rel="noreferrer"
-                className="bg-white text-blue-700 p-2 rounded-full hover:scale-110 transition"
+                className="bg-[#d4af37] text-[#310502] p-2 rounded-full hover:scale-110 transition-transform"
               >
                 <FaFacebookF className="w-4 h-4" />
               </a>
@@ -103,7 +115,7 @@ const Footer = () => {
                 href="https://www.instagram.com/shriworks/"
                 target="_blank"
                 rel="noreferrer"
-                className="bg-white text-pink-600 p-2 rounded-full hover:scale-110 transition"
+                className="bg-[#d4af37] text-[#310502] p-2 rounded-full hover:scale-110 transition-transform"
               >
                 <FaInstagram className="w-4 h-4" />
               </a>
@@ -112,7 +124,7 @@ const Footer = () => {
                 href="https://wa.me/919176554626"
                 target="_blank"
                 rel="noreferrer"
-                className="bg-white text-green-600 p-2 rounded-full hover:scale-110 transition"
+                className="bg-[#d4af37] text-[#310502] p-2 rounded-full hover:scale-110 transition-transform"
               >
                 <FaWhatsapp className="w-4 h-4" />
               </a>
@@ -121,7 +133,7 @@ const Footer = () => {
                 href="https://www.youtube.com/@shriworks"
                 target="_blank"
                 rel="noreferrer"
-                className="bg-white text-red-600 p-2 rounded-full hover:scale-110 transition"
+                className="bg-[#d4af37] text-[#310502] p-2 rounded-full hover:scale-110 transition-transform"
               >
                 <FaYoutube className="w-4 h-4" />
               </a>
@@ -131,14 +143,14 @@ const Footer = () => {
       </div>
 
       {/* Divider */}
-      <hr className="border-yellow-300 opacity-25 mx-[5%]" />
+      <hr className="border-[#d4af37]/40 opacity-30 mx-[5%]" />
 
       {/* Bottom Bar */}
-      <div className="text-yellow-200 p-6 mx-[5%] text-center flex flex-col md:flex-row justify-between text-sm">
+      <div className="text-[#f5e9c9] p-6 mx-[5%] text-center flex flex-col md:flex-row justify-between text-sm">
         <div>
-          <span className="opacity-50">© 2024 Copyright: </span>
+          <span className="opacity-60">© 2024 Copyright: </span>
           <a
-            className="font-semibold uppercase hover:underline"
+            className="font-semibold uppercase hover:text-[#d4af37] transition-colors"
             href="https://shivyantra.com/"
             target="_blank"
             rel="noreferrer"
@@ -147,9 +159,9 @@ const Footer = () => {
           </a>
         </div>
         <div>
-          <span className="opacity-50">Developed by: </span>
+          <span className="opacity-60">Developed by: </span>
           <a
-            className="font-semibold uppercase hover:underline"
+            className="font-semibold uppercase hover:text-[#d4af37] transition-colors"
             href="https://www.jgntechnologies.com/"
             target="_blank"
             rel="noreferrer"

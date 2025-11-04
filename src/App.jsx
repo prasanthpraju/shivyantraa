@@ -20,11 +20,13 @@ import Blog from "./Pages/Blog/Blog";
 import BlogDetail from "./Pages/Blog/BlogDetail";
 import ForgotPassword from "./Pages/Login/ForgotPassword";
 import ResetPassword from "./Pages/Login/ResetPassword";
+import ScrollTopAndSocials from "./Components/ScrollTopAndSocials";
 
 const App = () => {
   return (
     <div>
       <ToastContainer position="top-center" autoClose={3000} />
+      <ScrollTopAndSocials/>
       <TopSlider />
       <Navbar />
       <TopNav />

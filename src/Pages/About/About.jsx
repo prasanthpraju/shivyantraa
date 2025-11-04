@@ -1,22 +1,21 @@
-import React from "react";
+ import React from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { useNavigate } from "react-router-dom";
-import rudraksha from "../../../src/assets/rec.webp"
+import rudraksha from "../../../src/assets/rec.webp";
 
 const About = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-yellow-50 text-gray-900">
+    <div className="min-h-screen bg-[#fdf8f2] text-[#3b1d0f]">
       {/* ===== Banner Section ===== */}
-      <section className="relative w-full aspect-[16/5] bg-cover bg-center"
-        style={{backgroundImage:`url(${rudraksha})`}}
-      >
-        
-      </section>
+      <section
+        className="relative w-full aspect-[16/5] bg-cover bg-center shadow-md"
+        style={{ backgroundImage: `url(${rudraksha})` }}
+      ></section>
 
       {/* ===== About Content ===== */}
-      <section className="px-5 md:px-10 py-10 leading-7 text-base text-gray-800 space-y-5">
+      <section className="px-5 md:px-10 py-10 leading-7 text-base text-[#4a2b15] space-y-5">
         <p>
           An organization was established 18 years ago, to educate, promote and
           supply the best quality of Nepal Rudraksha. It went on to establish a
@@ -61,11 +60,11 @@ const About = () => {
 
       {/* ===== Mission Section ===== */}
       <section className="px-5 md:px-10 pb-10">
-        <h2 className="text-2xl font-bold text-red-900 mb-4 uppercase">
+        <h2 className="text-2xl font-bold text-[#4e1f07] mb-4 uppercase">
           Mission
         </h2>
 
-        <ul className="list-disc list-inside space-y-3 text-gray-800 leading-7 marker:text-red-900 marker:text-xl">
+        <ul className="list-disc list-inside space-y-3 text-[#4a2b15] leading-7 marker:text-[#5b2a0c] marker:text-xl">
           <li>Our Aim Is To Make People Aware Of The Genuine Rudraksha Bead.</li>
           <li>
             To Take Utmost Care In Maintaining The Quality And Sanctity Of The

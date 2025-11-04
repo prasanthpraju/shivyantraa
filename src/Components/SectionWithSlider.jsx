@@ -7,12 +7,14 @@ const SectionWithSlider = () => {
   // 🔹 Custom Arrow Components
   const NextArrow = ({ onClick }) => (
     <div
-      className="absolute right-3 top-1/2 -translate-y-1/2 z-10 bg-red-900 p-2 rounded-full cursor-pointer hover:scale-110 transition"
+      className="absolute right-1 sm:right-2 md:right-3 top-1/2 -translate-y-1/2 z-10 
+                 bg-[#310502]/90 p-1.5 sm:p-2 rounded-full cursor-pointer 
+                 hover:scale-110 hover:bg-[#d4af37] transition-all duration-300"
       onClick={onClick}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="w-6 h-6 text-white"
+        className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-[#f7f7f7]"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -24,12 +26,14 @@ const SectionWithSlider = () => {
 
   const PrevArrow = ({ onClick }) => (
     <div
-      className="absolute left-3 top-1/2 -translate-y-1/2 z-10 bg-red-900 p-2 rounded-full cursor-pointer hover:scale-110 transition"
+      className="absolute left-1 sm:left-2 md:left-3 top-1/2 -translate-y-1/2 z-10 
+                 bg-[#310502]/90 p-1.5 sm:p-2 rounded-full cursor-pointer 
+                 hover:scale-110 hover:bg-[#d4af37] transition-all duration-300"
       onClick={onClick}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="w-6 h-6 text-white"
+        className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-[#f7f7f7]"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -47,6 +51,7 @@ const SectionWithSlider = () => {
     autoplaySpeed: 2500,
     slidesToShow: 5,
     slidesToScroll: 1,
+    swipeToSlide: true, // allow finger swipe on touch
     rtl: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
@@ -54,30 +59,44 @@ const SectionWithSlider = () => {
       { breakpoint: 1600, settings: { slidesToShow: 4 } },
       { breakpoint: 1200, settings: { slidesToShow: 3 } },
       { breakpoint: 900, settings: { slidesToShow: 2 } },
-      { breakpoint: 600, settings: { slidesToShow: 1 } },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          centerMode: true,
+          centerPadding: "30px",
+          arrows: true, // ✅ keep arrows visible on phones
+        },
+      },
     ],
   };
 
   return (
-    <section className="bg-yellow-50 py-16 overflow-hidden relative">
+    <section className="bg-gradient-to-r from-[#310502] via-[#420303] to-[#3d0101] py-12 md:py-16 overflow-hidden relative">
       {/* 🔹 Section Title */}
-      <div className="flex justify-center items-center mb-10">
-        <div className="flex items-center space-x-4">
-          <span className="w-20 border-t-4 border-red-700 rounded-full"></span>
-          <h2 className="text-2xl md:text-3xl font-bold text-red-800 uppercase tracking-wide">
+      <div className="flex justify-center items-center mb-8 md:mb-10">
+        <div className="flex items-center space-x-3 md:space-x-4">
+          <span className="w-12 md:w-20 border-t-4 border-[#d4af37] rounded-full"></span>
+          <h2 className="text-xl md:text-3xl font-bold text-[#f7f7f7] uppercase tracking-wide text-center">
             Section Title
           </h2>
-          <span className="w-20 border-t-4 border-red-700 rounded-full"></span>
+          <span className="w-12 md:w-20 border-t-4 border-[#d4af37] rounded-full"></span>
         </div>
       </div>
 
       {/* 🔹 Slider Area */}
-      <div className="relative px-8 md:px-16">
+      <div className="relative px-3 sm:px-6 md:px-16">
         <Slider {...settings}>
           {[...Array(6)].map((_, index) => (
-            <div key={index} className="px-2">
-              <div className="bg-white h-56 rounded-2xl shadow-md flex items-center justify-center hover:shadow-xl transition">
-                <p className="text-gray-400 text-sm">Product {index + 1}</p>
+            <div key={index} className="px-1 sm:px-2">
+              <div
+                className="bg-[#fef9e7] h-44 sm:h-52 md:h-56 rounded-xl sm:rounded-2xl 
+                           shadow-md flex items-center justify-center 
+                           hover:shadow-[#d4af37]/50 transition-all duration-300"
+              >
+                <p className="text-[#310502] font-medium text-sm sm:text-base">
+                  Product {index + 1}
+                </p>
               </div>
             </div>
           ))}

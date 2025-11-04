@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   UserPlusIcon,
@@ -106,32 +106,32 @@ const TopNav = () => {
   return (
     <>
       {/* ======= MAIN NAVBAR ======= */}
-      <nav className="via-red-900 bg-red-800 text-yellow-200 shadow-lg py-3">
+      <nav className="bg-gradient-to-r from-[#310502] via-[#420303] to-[#3d0101] text-[#f7f7f7] shadow-lg py-3">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center flex-wrap gap-4">
             {/* ==== LEFT SECTION (Logo) ==== */}
             <div className="flex items-center space-x-2">
               <h1
                 onClick={() => navigate("/")}
-                className="text-3xl font-extrabold bg-gradient-to-r from-yellow-300 via-yellow-100 to-yellow-300 bg-clip-text text-transparent tracking-widest drop-shadow-md cursor-pointer"
+                className="text-3xl font-extrabold bg-gradient-to-r from-[#d4af37] via-[#f7f7f7] to-[#d4af37] bg-clip-text text-transparent tracking-widest drop-shadow-md cursor-pointer "
               >
                 Shivyantra
               </h1>
             </div>
 
             {/* ==== CENTER SECTION (Search) ==== */}
-            <div className="hidden sm:flex bg-white rounded-full border border-yellow-300 overflow-hidden focus-within:ring-2 focus-within:ring-yellow-400 transition-all w-96">
+            <div className="hidden sm:flex bg-[#f7f7f7] rounded-full border border-[#d4af37] overflow-hidden focus-within:ring-2 focus-within:ring-[#d4af37] transition-all w-96">
               <input
                 type="text"
                 placeholder="Search for products..."
-                className="flex-grow px-4 py-2 text-sm text-gray-800 outline-none"
+                className="flex-grow px-4 py-2 text-sm text-[#310502] outline-none"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
               />
               <button
                 onClick={handleSearch}
-                className="bg-yellow-200 text-red-900 px-5 font-semibold hover:bg-yellow-100 transition-all"
+                className="bg-[#d4af37] text-[#310502] px-5 font-semibold hover:bg-[#f0cf77] transition-all"
               >
                 Search
               </button>
@@ -144,7 +144,7 @@ const TopNav = () => {
                 {isLoggedIn ? (
                   <button
                     onClick={handleLogout}
-                    className="flex items-center gap-1 hover:text-yellow-300 transition-all cursor-pointer"
+                    className="flex items-center gap-1 hover:text-[#d4af37] transition-all cursor-pointer"
                   >
                     <PowerIcon className="w-5 h-5" />
                     Logout
@@ -153,14 +153,14 @@ const TopNav = () => {
                   <>
                     <Link
                       to="/login"
-                      className="flex items-center gap-1 hover:text-yellow-300 transition-all"
+                      className="flex items-center gap-1 hover:text-[#d4af37] transition-all"
                     >
                       <ArrowRightOnRectangleIcon className="w-5 h-5" />
                       Login
                     </Link>
                     <Link
                       to="/register"
-                      className="flex items-center gap-1 hover:text-yellow-300 transition-all"
+                      className="flex items-center gap-1 hover:text-[#d4af37] transition-all"
                     >
                       <UserPlusIcon className="w-5 h-5" />
                       Register
@@ -169,10 +169,10 @@ const TopNav = () => {
                 )}
               </div>
 
-              {/* 👇 ADD THIS PROFILE ICON HERE 👇 */}
+              {/* Profile Icon */}
               {isLoggedIn && (
                 <div
-                  className="w-9 h-9 rounded-full bg-yellow-300 text-red-900 flex items-center justify-center font-bold cursor-pointer hover:bg-yellow-200 transition-all"
+                  className="w-9 h-9 rounded-full bg-[#d4af37] text-[#310502] flex items-center justify-center font-bold cursor-pointer hover:bg-[#f0cf77] transition-all"
                   title={localStorage.getItem("username") || "User"}
                   onClick={() => navigate("/profile")}
                 >
@@ -182,7 +182,7 @@ const TopNav = () => {
                 </div>
               )}
 
-              {/* Cart icon */}
+              {/* Cart Icon */}
               <Link
                 to="/cart"
                 className="relative hover:scale-105 transition-transform"
@@ -193,7 +193,7 @@ const TopNav = () => {
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="w-7 h-7 text-yellow-100"
+                  className="w-7 h-7 text-[#f7f7f7]"
                 >
                   <path
                     strokeLinecap="round"
@@ -205,7 +205,7 @@ const TopNav = () => {
                       1.125 0 0 1 1.119 1.007Z"
                   />
                 </svg>
-                <span className="absolute -top-2 -right-2 bg-yellow-300 text-red-900 text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-[#d4af37] text-[#310502] text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
                   0
                 </span>
               </Link>
@@ -213,7 +213,7 @@ const TopNav = () => {
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsMenuOpen(true)}
-                className="text-yellow-100 hover:text-yellow-300 transition sm:hidden"
+                className="text-[#f7f7f7] hover:text-[#d4af37] transition sm:hidden"
               >
                 <Bars3Icon className="w-7 h-7" />
               </button>
@@ -225,66 +225,38 @@ const TopNav = () => {
       {/* ==== MOBILE MENU ==== */}
       {isMenuOpen && (
         <>
-          {/* Transparent overlay */}
           <div
-            className="fixed inset-0 bg-black/30 backdrop-blur-sm z-30"
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-30"
             onClick={() => setIsMenuOpen(false)}
           ></div>
 
-          {/* Sidebar menu */}
-          <div className="fixed top-0 right-0 w-64 h-full bg-red-900 text-yellow-100 shadow-xl z-50 p-5 overflow-y-auto rounded-l-2xl transition-all">
-            {/* Cancel Button */}
+          <div className="fixed top-0 right-0 w-64 h-full bg-[#3d0101] text-[#f7f7f7] shadow-xl z-50 p-5 overflow-y-auto rounded-l-2xl transition-all">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold">Menu</h2>
               <button
                 onClick={() => setIsMenuOpen(false)}
-                className="text-yellow-100 hover:text-yellow-300"
+                className="text-[#f7f7f7] hover:text-[#d4af37]"
               >
                 <XMarkIcon className="w-6 h-6" />
               </button>
             </div>
 
-            <Link
-              to="/"
-              className="block py-2 hover:text-yellow-300"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Home
-            </Link>
-            <Link
-              to="/shop"
-              className="block py-2 hover:text-yellow-300"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Shop
-            </Link>
-            <Link
-              to="/about"
-              className="block py-2 hover:text-yellow-300"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              About
-            </Link>
-            <Link
-              to="/blog"
-              className="block py-2 hover:text-yellow-300"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Blog
-            </Link>
-            <Link
-              to="/contact"
-              className="block py-2 hover:text-yellow-300"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Contact
-            </Link>
+            {["Home", "Shop", "About", "Blog", "Contact"].map((item) => (
+              <Link
+                key={item}
+                to={`/${item.toLowerCase()}`}
+                className="block py-2 hover:text-[#d4af37]"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {item}
+              </Link>
+            ))}
 
-            <div className="mt-4 border-t border-yellow-300 pt-3">
+            <div className="mt-4 border-t border-[#d4af37]/50 pt-3">
               {isLoggedIn ? (
                 <button
                   onClick={handleLogout}
-                  className="flex items-center gap-2 text-yellow-100 hover:text-yellow-300 w-full text-left"
+                  className="flex items-center gap-2 text-[#f7f7f7] hover:text-[#d4af37] w-full text-left"
                 >
                   <PowerIcon className="w-5 h-5" />
                   Logout
@@ -294,7 +266,7 @@ const TopNav = () => {
                   <Link
                     to="/login"
                     onClick={() => setIsMenuOpen(false)}
-                    className="flex items-center gap-2 py-2 hover:text-yellow-300"
+                    className="flex items-center gap-2 py-2 hover:text-[#d4af37]"
                   >
                     <ArrowRightOnRectangleIcon className="w-5 h-5" />
                     Login
@@ -302,7 +274,7 @@ const TopNav = () => {
                   <Link
                     to="/register"
                     onClick={() => setIsMenuOpen(false)}
-                    className="flex items-center gap-2 py-2 hover:text-yellow-300"
+                    className="flex items-center gap-2 py-2 hover:text-[#d4af37]"
                   >
                     <UserPlusIcon className="w-5 h-5" />
                     Register

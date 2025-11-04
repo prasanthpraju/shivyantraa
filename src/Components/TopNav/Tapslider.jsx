@@ -9,12 +9,12 @@ const TopSlider = () => {
   ];
 
   return (
-    <div className="relative overflow-hidden bg-gradient-to-r from-red-950 via-red-900 to-red-950 text-yellow-100 py-2 border-b border-yellow-400/30 shadow-inner">
+    <div className="relative overflow-hidden bg-gradient-to-r from-[#310502] via-[#420303] to-[#3d0101] text-[#f7f7f7] py-2 border-b shadow-inner">
       <div className="flex whitespace-nowrap animate-marquee">
         {toplines.map((line, index) => (
           <span
             key={index}
-            className="mx-10 text-sm sm:text-base font-semibold tracking-widest drop-shadow-[0_0_6px_rgba(255,215,0,0.6)]"
+            className="mx-10 text-sm sm:text-base font-semibold tracking-widest drop-shadow-[0_0_6px_rgba(212,175,55,0.6)]"
           >
             {line}
           </span>
@@ -23,7 +23,7 @@ const TopSlider = () => {
         {toplines.map((line, index) => (
           <span
             key={`dup-${index}`}
-            className="mx-10 text-sm sm:text-base font-semibold tracking-widest drop-shadow-[0_0_6px_rgba(255,215,0,0.6)]"
+            className="mx-10 text-sm sm:text-base font-semibold tracking-widest drop-shadow-[0_0_6px_rgba(212,175,55,0.6)]"
           >
             {line}
           </span>

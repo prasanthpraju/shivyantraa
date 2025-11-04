@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+ import React, { useEffect, useState, useRef } from "react";
 import r1 from "../assets/r1.webp";
 import r2 from "../assets/r2.jpg";
 import r3 from "../assets/r3.webp";
@@ -14,7 +14,6 @@ const CategorySlider = () => {
   const isPaused = useRef(false);
 
   useEffect(() => {
-    // 🔹 Dummy data (replace with API later)
     const data = [
       { id: 1, name: "Electronics", image: r1 },
       { id: 2, name: "Fashion", image: r2 },
@@ -27,7 +26,6 @@ const CategorySlider = () => {
     setCategories(data);
   }, []);
 
-  // 🔹 Auto-scroll with pause on hover
   useEffect(() => {
     const slider = sliderRef.current;
     if (!slider) return;
@@ -60,11 +58,11 @@ const CategorySlider = () => {
   };
 
   return (
-    <section className="  bg-yellow-50 py-16 overflow-hidden ">
+    <section className="bg-gradient-to-r from-[#310502] via-[#420303] to-[#3d0101] py-16 overflow-hidden">
       <div className="text-center mb-10">
-        <h2 className="text-3xl md:text-4xl font-bold text-red-900 uppercase tracking-wide relative inline-block">
+        <h2 className="text-3xl md:text-4xl font-bold text-[#f7f7f7] uppercase tracking-wide relative inline-block">
           Explore Categories
-          <span className="absolute bottom-[-6px] left-1/2 transform -translate-x-1/2 w-20 border-b-4 border-red-900 rounded-full"></span>
+          <span className="absolute bottom-[-6px] left-1/2 transform -translate-x-1/2 w-20 border-b-4 border-[#d4af37] rounded-full"></span>
         </h2>
       </div>
 
@@ -77,7 +75,7 @@ const CategorySlider = () => {
             key={item.id}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className="min-w-[220px] md:min-w-[260px] bg-white  rounded-2xl shadow-lg hover:shadow-2xl transition-transform duration-500 hover:-translate-y-2 cursor-pointer flex-shrink-0 group"
+            className="min-w-[220px] md:min-w-[260px] bg-[#fef9e7] rounded-2xl shadow-lg hover:shadow-[#d4af37]/40 transition-transform duration-500 hover:-translate-y-2 cursor-pointer flex-shrink-0 group"
           >
             <div className="relative overflow-hidden rounded-t-2xl">
               <img
@@ -85,10 +83,10 @@ const CategorySlider = () => {
                 alt={item.name}
                 className="w-full h-55 md:h-70 object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#420303]/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
             </div>
             <div className="p-4 text-center">
-              <h3 className="text-lg font-semibold text-yellow-200 bg-red-900 w-full uppercase tracking-wide">
+              <h3 className="text-lg font-semibold text-[#d4af37] bg-[#310502] w-full uppercase tracking-wide rounded-md py-1">
                 {item.name}
               </h3>
             </div>

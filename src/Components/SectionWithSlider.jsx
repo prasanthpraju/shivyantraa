@@ -13,7 +13,6 @@ const SectionWithSlider = () => {
       onClick={onClick}
     >
       <svg
-        // xmlns="http://www.w3.org/2000/svg"
         className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-[#f7f7f7]"
         fill="none"
         viewBox="0 0 24 24"
@@ -32,7 +31,6 @@ const SectionWithSlider = () => {
       onClick={onClick}
     >
       <svg
-        // xmlns="http://www.w3.org/2000/svg"
         className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-[#f7f7f7]"
         fill="none"
         viewBox="0 0 24 24"
@@ -51,7 +49,7 @@ const SectionWithSlider = () => {
     autoplaySpeed: 2500,
     slidesToShow: 5,
     slidesToScroll: 1,
-    swipeToSlide: true, // allow finger swipe on touch
+    swipeToSlide: true,
     rtl: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
@@ -64,8 +62,9 @@ const SectionWithSlider = () => {
         settings: {
           slidesToShow: 2,
           centerMode: true,
-          centerPadding: "30px",
-          arrows: true, // ✅ keep arrows visible on phones
+          centerPadding: "15px", // ✅ more breathing space on mobile
+          arrows: true,
+          rtl: false,
         },
       },
     ],
@@ -78,7 +77,7 @@ const SectionWithSlider = () => {
         <div className="flex items-center space-x-3 md:space-x-4">
           <span className="w-12 md:w-30 border-t-4 border-[#d4af37] rounded-full"></span>
           <h2 className="text-xl md:text-3xl font-bold text-[#f7f7f7] uppercase tracking-wide text-center">
-            Section 
+            Section
           </h2>
           <span className="w-12 md:w-30 border-t-4 border-[#d4af37] rounded-full"></span>
         </div>
@@ -88,9 +87,9 @@ const SectionWithSlider = () => {
       <div className="relative px-3 sm:px-6 md:px-16">
         <Slider {...settings}>
           {[...Array(6)].map((_, index) => (
-            <div key={index} className="px-1 sm:px-2">
+            <div key={index} className="px-2 sm:px-3"> {/* ✅ extra spacing between slides */}
               <div
-                className="bg-[#fef9e7] h-44 sm:h-52 md:h-56 rounded-xl sm:rounded-2xl 
+                className="bg-[#fef9e7] h-40 sm:h-52 md:h-56 rounded-xl sm:rounded-2xl 
                            shadow-md flex items-center justify-center 
                            hover:shadow-[#d4af37]/50 transition-all duration-300"
               >

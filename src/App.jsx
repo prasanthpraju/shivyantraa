@@ -21,6 +21,7 @@ import BlogDetail from "./Pages/Blog/BlogDetail";
 import ForgotPassword from "./Pages/Login/ForgotPassword";
 import ResetPassword from "./Pages/Login/ResetPassword";
 import ScrollTopAndSocials from "./Components/ScrollTopAndSocials";
+import Cart from "./Pages/Cart";
 
 const App = () => {
   return (
@@ -45,6 +46,8 @@ const App = () => {
         <Route path="register" element={<Register/>}/>
         <Route path="forgot-password" element={<ForgotPassword/>}/>
         <Route path="reset-password" element={<ResetPassword/>}/>
+        <Route path="cart" element={<Cart/>}/>
+       
       </Routes>
       <Footer />
     </div>

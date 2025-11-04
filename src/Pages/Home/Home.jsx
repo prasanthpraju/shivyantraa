@@ -3,6 +3,7 @@ import Hero from "../../Components/Hero";
 import CategorySlider from "../../Components/CategorySlider";
 import SectionWithSlider from "../../Components/SectionWithSlider";
 import WhyChooseUs from "../../Components/WhyChooseUs";
+import Us from "../../Components/Us"
 
 import FAQ from "../../Components/FAQ";
 
@@ -12,6 +13,7 @@ function Home() {
       <Hero />
       <CategorySlider />
       <SectionWithSlider />
+      <Us/>
       <WhyChooseUs />
       <FAQ />
     </div>

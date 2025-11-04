@@ -13,7 +13,7 @@ const SectionWithSlider = () => {
       onClick={onClick}
     >
       <svg
-        xmlns="http://www.w3.org/2000/svg"
+        // xmlns="http://www.w3.org/2000/svg"
         className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-[#f7f7f7]"
         fill="none"
         viewBox="0 0 24 24"
@@ -32,7 +32,7 @@ const SectionWithSlider = () => {
       onClick={onClick}
     >
       <svg
-        xmlns="http://www.w3.org/2000/svg"
+        // xmlns="http://www.w3.org/2000/svg"
         className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-[#f7f7f7]"
         fill="none"
         viewBox="0 0 24 24"
@@ -62,7 +62,7 @@ const SectionWithSlider = () => {
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 1,
+          slidesToShow: 2,
           centerMode: true,
           centerPadding: "30px",
           arrows: true, // ✅ keep arrows visible on phones
@@ -76,11 +76,11 @@ const SectionWithSlider = () => {
       {/* 🔹 Section Title */}
       <div className="flex justify-center items-center mb-8 md:mb-10">
         <div className="flex items-center space-x-3 md:space-x-4">
-          <span className="w-12 md:w-20 border-t-4 border-[#d4af37] rounded-full"></span>
+          <span className="w-12 md:w-30 border-t-4 border-[#d4af37] rounded-full"></span>
           <h2 className="text-xl md:text-3xl font-bold text-[#f7f7f7] uppercase tracking-wide text-center">
-            Section Title
+            Section 
           </h2>
-          <span className="w-12 md:w-20 border-t-4 border-[#d4af37] rounded-full"></span>
+          <span className="w-12 md:w-30 border-t-4 border-[#d4af37] rounded-full"></span>
         </div>
       </div>
 

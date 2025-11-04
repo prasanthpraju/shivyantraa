@@ -1,6 +1,6 @@
 import React from "react";
 import TopSlider from "./Components/TopNav/Tapslider";
-import Navbar from "./Components/Navbar/Navbar";
+import Navbar from "./Components/Navbar";
 import TopNav from "./Components/TopNav/TopNav";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home/Home";
@@ -10,7 +10,7 @@ import Contact from "./Pages/Contact/Contact";
 import { ToastContainer } from "react-toastify"; 
 import "react-toastify/dist/ReactToastify.css";
 import About from "./Pages/About/About";
-import Footer from "./Components/Footer/Footer";
+import Footer from "./Components/Footer";
 import CancellationPolicy from "./Insights/CancellationPolicy";
 import ReplacementPolicy from "./Insights/ReplacementPolicy";
 import Register from "./Pages/Login/Register";

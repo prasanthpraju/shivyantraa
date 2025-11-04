@@ -62,7 +62,7 @@ const CategorySlider = () => {
       <div className="text-center mb-10">
         <h2 className="text-3xl md:text-4xl font-bold text-[#f7f7f7] uppercase tracking-wide relative inline-block">
           Explore Categories
-          <span className="absolute bottom-[-6px] left-1/2 transform -translate-x-1/2 w-20 border-b-4 border-[#d4af37] rounded-full"></span>
+          <span className="absolute bottom-[-19px] left-1/2 transform -translate-x-1/2 w-30 border-b-4 border-[#d4af37] rounded-full"></span>
         </h2>
       </div>
 

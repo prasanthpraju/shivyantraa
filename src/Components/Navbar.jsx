@@ -1,6 +1,6 @@
  import React from "react";
 import { Link } from "react-router-dom";
-import { useScrollReveal } from "../useScrollReveal";
+import { useScrollReveal } from "./useScrollReveal";
 
 const Navbar = () => {
   const [ref, visible] = useScrollReveal();

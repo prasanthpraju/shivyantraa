@@ -1,14 +1,15 @@
-import React, { useState,useEffect } from "react";
+ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import Registerbg from "../../../src/assets/ii.png"; // same background as login
 
 const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     Name: "",
     Email: "",
-    MobileNumber: "", 
+    MobileNumber: "",
     Password: "",
   });
   const [otp, setOtp] = useState("");
@@ -18,20 +19,17 @@ const Register = () => {
   const [timer, setTimer] = useState(0);
 
   useEffect(() => {
-  let interval;
-  if (timer > 0) {
-    interval = setInterval(() => {
-      setTimer((prev) => prev - 1);
-    }, 1000);
-  }
-  return () => clearInterval(interval);
-}, [timer]);
+    let interval;
+    if (timer > 0) {
+      interval = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [timer]);
 
-
-  // Handle Input
-  const handleChange = (e) => {
+  const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   // Step 1: Register User
   const handleRegister = async (e) => {
@@ -39,27 +37,34 @@ const Register = () => {
     setLoading(true);
     setMessage("");
     setTimer(30);
+
     try {
-      await axios.post(
-        "https://shivyantra.onrender.com/api/register",
-        formData
-      );
+      await axios.post("https://shivyantra.onrender.com/api/register", formData);
+
       setLoading(false);
       setStep(2);
       setMessage("✅ OTP sent successfully! Please check your email.");
 
-      Swal.fire({
+      await Swal.fire({
         icon: "success",
-        title: "Account Created!",
-        text: "Your account has been created successfully. Please verify your OTP.",
-        showConfirmButton: false,
-        timer: 2000,
+        title: "Registration Successful 🎉",
+        text: "Please verify the OTP sent to your email.",
+        confirmButtonColor: "#a10202",
+        confirmButtonText: "Verify Now",
+        background: "#fff",
       });
     } catch (err) {
       setLoading(false);
       const errorMsg =
         err.response?.data?.message || "❌ Registration failed. Try again.";
       setMessage(errorMsg);
+
+      Swal.fire({
+        icon: "error",
+        title: "Registration Failed",
+        text: errorMsg,
+        confirmButtonColor: "#a10202",
+      });
     }
   };
 
@@ -119,8 +124,17 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-red-50 flex items-center justify-center px-4 py-10">
-      <div className="bg-white w-full max-w-md rounded-2xl shadow-xl p-8 border border-red-100">
+    <div
+      className="relative flex items-center justify-center min-h-screen w-full bg-center bg-cover bg-no-repeat px-4 py-10"
+      style={{
+        backgroundImage: `url(${Registerbg})`,
+      }}
+    >
+      {/* ✨ Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/50 to-red-900/40 backdrop-blur-[2px]" />
+
+      {/* 🔸 Register Card */}
+      <div className="relative z-10 bg-white/90 shadow-2xl rounded-2xl p-8 w-full max-w-md border border-[#d4af37]/30 backdrop-blur-md sm:p-10 md:p-12 transform hover:scale-[1.01] transition-all duration-300">
         <h2 className="text-3xl font-bold text-center text-red-900 mb-6 uppercase">
           {step === 1 ? "Create Account" : "Verify OTP"}
         </h2>
@@ -204,13 +218,12 @@ const Register = () => {
               {loading ? "Submitting..." : "Register"}
             </button>
 
-            {/* 🔹 Already have account link */}
             <p className="text-center text-sm mt-3 text-gray-700">
               Already have an account?{" "}
               <button
                 type="button"
                 onClick={() => navigate("/login")}
-                className="text-red-900 font-semibold hover:underline cursor-pointer "
+                className="text-red-900 font-semibold hover:underline cursor-pointer"
               >
                 Login here
               </button>
@@ -242,14 +255,19 @@ const Register = () => {
               {loading ? "Verifying..." : "Verify OTP"}
             </button>
 
-            <p className="text-center text-sm mt-3">
+            <p className="text-center text-sm mt-3 text-gray-700">
               Didn’t get the OTP?{" "}
               <button
                 type="button"
                 onClick={handleResendOtp}
-                className="text-red-900 font-semibold hover:underline"
+                disabled={loading || timer > 0}
+                className={`font-semibold ${
+                  timer > 0
+                    ? "text-gray-500 cursor-not-allowed"
+                    : "text-red-900 hover:underline"
+                }`}
               >
-                Resend OTP
+                {timer > 0 ? `Resend in ${timer}s` : "Resend OTP"}
               </button>
             </p>
           </form>

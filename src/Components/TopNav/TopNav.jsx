@@ -1,4 +1,4 @@
- import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   UserPlusIcon,
@@ -127,7 +127,7 @@ const TopNav = () => {
                 className="flex-grow px-4 py-2 text-sm text-[#310502] outline-none"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
               />
               <button
                 onClick={handleSearch}
@@ -244,7 +244,7 @@ const TopNav = () => {
             {["Home", "Shop", "About", "Blog", "Contact"].map((item) => (
               <Link
                 key={item}
-                to={`/${item.toLowerCase()}`}
+                to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
                 className="block py-2 hover:text-[#d4af37]"
                 onClick={() => setIsMenuOpen(false)}
               >

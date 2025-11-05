@@ -2,89 +2,147 @@
 
 const ReplacementPolicy = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#3d0101] via-[#420303] to-[#310502] text-[#f7f7f7] py-16 px-6 md:px-10">
-      {/* 🌟 Header */}
-      <div className="text-center mb-14">
-        <h1 className="text-4xl md:text-5xl font-bold text-[#d4af37] tracking-wide drop-shadow-lg">
+    <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-red-50 to-white py-16 px-6 sm:px-10 lg:px-20">
+      <div className="max-w-4xl mx-auto bg-white shadow-xl rounded-2xl p-8 sm:p-12 border border-red-100">
+        <h1 className="text-4xl font-bold text-center text-red-900 mb-8 uppercase">
           Replacement Policy
         </h1>
-        <p className="mt-4 text-[#f5e6c5] text-lg max-w-3xl mx-auto leading-relaxed">
-          At <span className="font-semibold text-[#d4af37]">Shriworks</span>, we value the trust you place in our craftsmanship.
-          Our replacement policy ensures fairness, transparency, and care for every customer.
+
+        <p className="text-gray-700 mb-6 leading-relaxed">
+          At <span className="font-semibold text-red-900">Rudrakha</span>, our
+          goal is to provide you with sacred, authentic, and spiritually pure
+          products. Each Rudraksha bead, Yantra, or Puja item undergoes careful
+          inspection and energization before dispatch.  
+          However, in rare cases of damage or manufacturing defects, we offer a
+          replacement policy to ensure your satisfaction and trust.
         </p>
-      </div>
 
-      <div className="max-w-5xl mx-auto space-y-10">
-        {/* 🪔 Section 1 */}
-        <section className="bg-[#fef9e7]/10 border border-[#d4af37]/30 rounded-2xl p-6 md:p-8 shadow-lg backdrop-blur-sm hover:shadow-[#d4af37]/30 transition-all duration-300">
-          <h2 className="text-2xl font-semibold text-[#d4af37] mb-4">Eligibility for Replacement</h2>
-          <ul className="list-disc list-inside text-[#f7f7f7] leading-relaxed space-y-3 marker:text-[#d4af37]">
-            <li>Replacements are available for items that are defective or differ significantly from the description.</li>
-            <li>Custom-made items are not eligible for replacement unless there’s a genuine manufacturing defect.</li>
-            <li>Products damaged during transport are not covered under our replacement policy.</li>
-          </ul>
-        </section>
+        {/* Section 1 */}
+        <h2 className="text-2xl font-semibold text-red-900 mt-8 mb-3">
+          1. Eligibility for Replacement
+        </h2>
+        <p className="text-gray-700 mb-6 leading-relaxed">
+          Replacement requests are accepted only under the following
+          circumstances:
+        </p>
+        <ul className="list-disc list-inside text-gray-700 mb-6 leading-relaxed">
+          <li>
+            You received a **damaged**, **defective**, or **incorrect** item.
+          </li>
+          <li>
+            The product delivered does not match the item described on our
+            website.
+          </li>
+          <li>
+            The issue is reported within{" "}
+            <span className="font-semibold">48 hours of delivery</span>.
+          </li>
+        </ul>
 
-        {/* 🌺 Section 2 */}
-        <section className="bg-[#fef9e7]/10 border border-[#d4af37]/30 rounded-2xl p-6 md:p-8 shadow-lg backdrop-blur-sm hover:shadow-[#d4af37]/30 transition-all duration-300">
-          <h2 className="text-2xl font-semibold text-[#d4af37] mb-4">Replacement Process</h2>
-          <ol className="list-decimal list-inside text-[#f7f7f7] leading-relaxed space-y-3 marker:text-[#d4af37]">
-            <li>
-              <span className="text-[#d4af37] font-semibold">Contact Us:</span> Email{" "}
-              <a href="mailto:info@shriworks.com" className="underline text-[#f5e6c5]">
-                info@shriworks.com
-              </a>{" "}
-              within <strong>7 days</strong> of receiving your order with your order number and photos of the issue.
-            </li>
-            <li>
-              <span className="text-[#d4af37] font-semibold">Approval:</span> Once reviewed, our team will confirm eligibility and next steps.
-            </li>
-            <li>
-              <span className="text-[#d4af37] font-semibold">Return:</span> If approved, return the defective item in its original packaging. Return shipping is the customer's responsibility unless stated otherwise.
-            </li>
-            <li>
-              <span className="text-[#d4af37] font-semibold">Replacement:</span> A new product will be shipped after inspection and confirmation.
-            </li>
-          </ol>
-        </section>
+        {/* Section 2 */}
+        <h2 className="text-2xl font-semibold text-red-900 mt-8 mb-3">
+          2. Non-Replaceable Items
+        </h2>
+        <p className="text-gray-700 mb-6 leading-relaxed">
+          Certain sacred and personalized products cannot be replaced once
+          shipped. These include:
+        </p>
+        <ul className="list-disc list-inside text-gray-700 mb-6 leading-relaxed">
+          <li>Personalized or customized Rudraksha Malas and Yantras.</li>
+          <li>
+            Energized or blessed items that have undergone spiritual rituals.
+          </li>
+          <li>Digital consultations, astrology reports, or e-services.</li>
+          <li>Items damaged due to misuse, improper handling, or wear and tear.</li>
+        </ul>
 
-        {/* 🔱 Section 3 */}
-        <section className="bg-[#fef9e7]/10 border border-[#d4af37]/30 rounded-2xl p-6 md:p-8 shadow-lg backdrop-blur-sm hover:shadow-[#d4af37]/30 transition-all duration-300">
-          <h2 className="text-2xl font-semibold text-[#d4af37] mb-4">Exclusions</h2>
-          <ul className="list-disc list-inside text-[#f7f7f7] leading-relaxed space-y-3 marker:text-[#d4af37]">
-            <li>Shriworks is not responsible for damages caused by courier mishandling after dispatch.</li>
-            <li>We do not offer replacements for custom-made or personalized products unless defective.</li>
-          </ul>
-        </section>
-
-        {/* ✨ Section 4 */}
-        <section className="bg-[#fef9e7]/10 border border-[#d4af37]/30 rounded-2xl p-6 md:p-8 shadow-lg backdrop-blur-sm hover:shadow-[#d4af37]/30 transition-all duration-300">
-          <h2 className="text-2xl font-semibold text-[#d4af37] mb-4">Important Note</h2>
-          <ul className="list-disc list-inside text-[#f7f7f7] leading-relaxed space-y-3 marker:text-[#d4af37]">
-            <li>All replacement requests must be made within <strong>1 day</strong> of receiving the item.</li>
-            <li>Replacements depend on availability; if unavailable, we may offer an alternative or a refund.</li>
-          </ul>
-        </section>
-
-        {/* 🕉️ Contact */}
-        <section className="text-center border-t border-[#d4af37]/40 pt-6">
-          <p className="text-[#f5e6c5] text-lg">
-            Need help? Reach us at{" "}
+        {/* Section 3 */}
+        <h2 className="text-2xl font-semibold text-red-900 mt-8 mb-3">
+          3. Replacement Process
+        </h2>
+        <p className="text-gray-700 mb-6 leading-relaxed">
+          To initiate a replacement, please follow these steps:
+        </p>
+        <ol className="list-decimal list-inside text-gray-700 mb-6 leading-relaxed">
+          <li>
+            Send an email to{" "}
             <a
-              href="mailto:info@shriworks.com"
-              className="text-[#d4af37] font-semibold hover:underline"
+              href="mailto:support@rudrakha.com"
+              className="text-red-900 font-semibold underline"
             >
-              info@shriworks.com
+              support@rudrakha.com
             </a>{" "}
-            or call{" "}
-            <a
-              href="tel:+919176554626"
-              className="text-[#d4af37] font-semibold hover:underline"
-            >
-              (+91) 91765 54626
-            </a>
-          </p>
-        </section>
+            within 48 hours of receiving your order.
+          </li>
+          <li>
+            Include your **order ID**, clear **photos/videos** of the item, and
+            a brief explanation of the issue.
+          </li>
+          <li>
+            Our quality team will review your request and confirm eligibility
+            within <span className="font-semibold">2–3 business days</span>.
+          </li>
+          <li>
+            Once approved, we’ll arrange a pickup or request you to ship the
+            item back to our return address.
+          </li>
+          <li>
+            A **replacement product** will be sent within{" "}
+            <span className="font-semibold">7–10 business days</span> after
+            receiving the returned item.
+          </li>
+        </ol>
+
+        {/* Section 4 */}
+        <h2 className="text-2xl font-semibold text-red-900 mt-8 mb-3">
+          4. Conditions for Replacement Approval
+        </h2>
+        <ul className="list-disc list-inside text-gray-700 mb-6 leading-relaxed">
+          <li>Item must be unused, unwashed, and in its original packaging.</li>
+          <li>
+            The product must include all original accessories, certificates, or
+            documents.
+          </li>
+          <li>
+            Our inspection team must verify that the defect is genuine and not
+            caused by external factors.
+          </li>
+        </ul>
+
+        {/* Section 5 */}
+        <h2 className="text-2xl font-semibold text-red-900 mt-8 mb-3">
+          5. Shipping for Replacement
+        </h2>
+        <p className="text-gray-700 mb-6 leading-relaxed">
+          - If the replacement is due to a mistake on our part (wrong or damaged
+          product), Rudrakha will cover all shipping costs.  
+          - If the replacement is due to customer preference or error (wrong
+          size, incorrect address, etc.), the customer will bear the return
+          shipping charges.
+        </p>
+
+        {/* Section 6 */}
+        <h2 className="text-2xl font-semibold text-red-900 mt-8 mb-3">
+          6. Contact Us
+        </h2>
+        <p className="text-gray-700 leading-relaxed">
+          For any replacement-related queries or assistance, please reach out to
+          us:
+          <br />
+          📧{" "}
+          <a
+            href="mailto:support@rudrakha.com"
+            className="text-red-900 font-semibold underline"
+          >
+            support@rudrakha.com
+          </a>
+          <br />
+          📞 +91-9876543210
+        </p>
+
+        <p className="text-center text-gray-500 text-sm mt-10">
+          Last Updated: {new Date().toLocaleDateString("en-IN")}
+        </p>
       </div>
     </div>
   );

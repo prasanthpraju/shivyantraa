@@ -1,108 +1,90 @@
- import React from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+ import React, { useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const SectionWithSlider = () => {
-  // 🔹 Custom Arrow Components
-  const NextArrow = ({ onClick }) => (
-    <div
-      className="absolute right-1 sm:right-2 md:right-3 top-1/2 -translate-y-1/2 z-10 
-                 bg-[#310502]/90 p-1.5 sm:p-2 rounded-full cursor-pointer 
-                 hover:scale-110 hover:bg-[#d4af37] transition-all duration-300"
-      onClick={onClick}
-    >
-      <svg
-        className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-[#f7f7f7]"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-      </svg>
-    </div>
-  );
+const SectionPagedGrid = () => {
+  // Total items
+  const totalItems = 32; // change as needed
+  const items = Array.from({ length: totalItems }, (_, i) => ({
+    id: i + 1,
+    name: `Item ${i + 1}`,
+  }));
 
-  const PrevArrow = ({ onClick }) => (
-    <div
-      className="absolute left-1 sm:left-2 md:left-3 top-1/2 -translate-y-1/2 z-10 
-                 bg-[#310502]/90 p-1.5 sm:p-2 rounded-full cursor-pointer 
-                 hover:scale-110 hover:bg-[#d4af37] transition-all duration-300"
-      onClick={onClick}
-    >
-      <svg
-        className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-[#f7f7f7]"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-      </svg>
-    </div>
-  );
+  // Responsive items per page
+  const [itemsPerPage, setItemsPerPage] = useState(16); // desktop default
+  const [page, setPage] = useState(0);
 
-  // 🔹 Slider Settings
-  const settings = {
-    infinite: true,
-    autoplay: true,
-    speed: 1500,
-    autoplaySpeed: 2500,
-    slidesToShow: 5,
-    slidesToScroll: 1,
-    swipeToSlide: true,
-    rtl: true,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
-    responsive: [
-      { breakpoint: 1600, settings: { slidesToShow: 4 } },
-      { breakpoint: 1200, settings: { slidesToShow: 3 } },
-      { breakpoint: 900, settings: { slidesToShow: 2 } },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-          centerMode: true,
-          centerPadding: "15px", // ✅ more breathing space on mobile
-          arrows: true,
-          rtl: false,
-        },
-      },
-    ],
-  };
+  // Update itemsPerPage on resize
+  useEffect(() => {
+    const updateItemsPerPage = () => {
+      if (window.innerWidth < 768) {
+        setItemsPerPage(8); // 2 cols x 4 rows
+      } else {
+        setItemsPerPage(16); // 4 cols x 4 rows
+      }
+    };
+    updateItemsPerPage();
+    window.addEventListener("resize", updateItemsPerPage);
+    return () => window.removeEventListener("resize", updateItemsPerPage);
+  }, []);
+
+  const totalPages = Math.ceil(items.length / itemsPerPage);
+
+  const handleNext = () => setPage((prev) => (prev + 1) % totalPages);
+  const handlePrev = () => setPage((prev) => (prev - 1 + totalPages) % totalPages);
+
+  const currentItems = items.slice(page * itemsPerPage, page * itemsPerPage + itemsPerPage);
 
   return (
-    <section className="bg-gradient-to-r from-[#310502] via-[#420303] to-[#3d0101] py-12 md:py-16 overflow-hidden relative">
-      {/* 🔹 Section Title */}
-      <div className="flex justify-center items-center mb-8 md:mb-10">
+    <section className="bg-gradient-to-r from-[#310502] via-[#420303] to-[#3d0101] py-12 md:py-16 relative">
+      {/* Section Title */}
+      <div className="flex justify-center items-center mb-10">
         <div className="flex items-center space-x-3 md:space-x-4">
           <span className="w-12 md:w-30 border-t-4 border-[#d4af37] rounded-full"></span>
           <h2 className="text-xl md:text-3xl font-bold text-[#f7f7f7] uppercase tracking-wide text-center">
-            Section
+            Our Products
           </h2>
           <span className="w-12 md:w-30 border-t-4 border-[#d4af37] rounded-full"></span>
         </div>
       </div>
 
-      {/* 🔹 Slider Area */}
-      <div className="relative px-3 sm:px-6 md:px-16">
-        <Slider {...settings}>
-          {[...Array(6)].map((_, index) => (
-            <div key={index} className="px-2 sm:px-3"> {/* ✅ extra spacing between slides */}
-              <div
-                className="bg-[#fef9e7] h-40 sm:h-52 md:h-56 rounded-xl sm:rounded-2xl 
-                           shadow-md flex items-center justify-center 
-                           hover:shadow-[#d4af37]/50 transition-all duration-300"
-              >
-                <p className="text-[#310502] font-medium text-sm sm:text-base">
-                  Product {index + 1}
-                </p>
-              </div>
+      {/* Buttons */}
+      <button
+        onClick={handlePrev}
+        className="absolute top-1/2 left-2 md:left-6 -translate-y-1/2 z-20 bg-[#d4af37] text-black p-3 rounded-full shadow-lg hover:bg-[#b9931b] hover:scale-110 transition-all duration-300"
+      >
+        <ChevronLeft size={24} />
+      </button>
+      <button
+        onClick={handleNext}
+        className="absolute top-1/2 right-2 md:right-6 -translate-y-1/2 z-20 bg-[#d4af37] text-black p-3 rounded-full shadow-lg hover:bg-[#b9931b] hover:scale-110 transition-all duration-300"
+      >
+        <ChevronRight size={24} />
+      </button>
+
+      {/* Grid */}
+      <div className="px-3 sm:px-6 md:px-16">
+        <div
+          className={`grid gap-6 ${
+            itemsPerPage === 8 ? "grid-cols-2 grid-rows-4" : "grid-cols-4 grid-rows-4"
+          }`}
+        >
+          {currentItems.map((item) => (
+            <div
+              key={item.id}
+              className="bg-[#fef9e7] rounded-2xl shadow-md hover:shadow-[#d4af37]/50 transition-all duration-300 flex items-center justify-center h-40 md:h-44 cursor-pointer transform hover:-translate-y-2 hover:scale-105 text-[#310502] font-semibold text-lg"
+            >
+              {item.name}
             </div>
           ))}
-        </Slider>
+        </div>
+      </div>
+
+      {/* Page Indicator */}
+      <div className="mt-6 text-center text-[#f7f7f7] font-medium">
+        Page {page + 1} of {totalPages}
       </div>
     </section>
   );
 };
 
-export default SectionWithSlider;
+export default SectionPagedGrid;

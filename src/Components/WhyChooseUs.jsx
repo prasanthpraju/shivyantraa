@@ -2,7 +2,7 @@
 import Slider from "react-slick";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-// ✅ Import slick carousel CSS (very important)
+// ✅ Import slick carousel CSS
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -70,43 +70,59 @@ const TestimonialSlider = () => {
   const settings = {
     infinite: true,
     autoplay: true,
-    speed: 1200,
+    speed: 1000,
     autoplaySpeed: 3000,
-    slidesToShow: 3,
+    slidesToShow: 3, // ✅ Desktop shows 3
     slidesToScroll: 1,
-    arrows: false, // disable default arrows
+    arrows: false,
+    centerMode: false,
+    centerPadding: "0px",
     responsive: [
-      { breakpoint: 1200, settings: { slidesToShow: 2 } },
-      { breakpoint: 768, settings: { slidesToShow: 1 } },
+      {
+        breakpoint: 1024, // Tablet
+        settings: {
+          slidesToShow: 1, // ✅ show 1 at a time
+          slidesToScroll: 1,
+          centerMode: false,
+          centerPadding: "0px",
+        },
+      },
+      {
+        breakpoint: 768, // Mobile
+        settings: {
+          slidesToShow: 1, // ✅ show 1 at a time
+          slidesToScroll: 1,
+          centerMode: false,
+          centerPadding: "0px",
+        },
+      },
     ],
   };
 
   return (
-    <section className="relative bg-gradient-to-r from-[#1e0b07] via-[#2b0f08] to-[#1a0603] text-[#f9f3e7] py-16 px-6 md:px-12 overflow-hidden">
-      {/* Section Title */}
-      <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 uppercase tracking-wide text-[#ffffff]">
+    <section className="relative bg-gradient-to-r from-[#1e0b07] via-[#2b0f08] to-[#1a0603] text-[#f9f3e7] py-16 px-4 md:px-12 overflow-hidden">
+      <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 uppercase tracking-wide text-white">
         What Our Clients Say
       </h2>
 
-      {/* Slider */}
       <div className="relative">
         <Slider ref={sliderRef} {...settings}>
           {testimonials.map((t) => (
-            <div key={t.id} className="px-3">
-              <div className="bg-[#2a0f08] rounded-2xl shadow-md p-6 text-center border border-[#3a1a0c] hover:border-[#d4af37] transition">
-                <div className="flex flex-col items-center space-y-4">
+            <div key={t.id} className="px-2 sm:px-3">
+              <div className="bg-[#2a0f08] rounded-2xl shadow-md p-5 sm:p-8 text-center border border-[#3a1a0c] hover:border-[#d4af37] transition transform hover:scale-105 duration-300 h-full flex flex-col justify-center">
+                <div className="flex flex-col items-center space-y-3 sm:space-y-4">
                   <img
                     src={t.image}
                     alt={t.name}
-                    className="w-20 h-20 rounded-full object-cover border-2 border-[#d4af37] shadow-md"
+                    className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-2 border-[#d4af37] shadow-md"
                   />
-                  <div className="flex justify-center text-[#d4af37]">
+                  <div className="flex justify-center text-[#d4af37] text-sm sm:text-base">
                     {"⭐".repeat(t.rating)}
                   </div>
-                  <p className="text-sm italic text-[#f3e9da] leading-6">
+                  <p className="text-sm sm:text-base italic text-[#f3e9da] leading-5 sm:leading-6">
                     “{t.quote}”
                   </p>
-                  <h4 className="font-semibold text-lg text-[#f7f7f7] mt-2">
+                  <h4 className="font-semibold text-base sm:text-lg text-white mt-2">
                     {t.name}
                   </h4>
                 </div>
@@ -115,17 +131,17 @@ const TestimonialSlider = () => {
           ))}
         </Slider>
 
-        {/* ✅ Custom Side Buttons */}
+        {/* ✅ Custom Navigation Buttons */}
         <button
           onClick={() => sliderRef.current.slickPrev()}
-          className="absolute top-1/2 left-2 md:left-6 -translate-y-1/2 bg-[#d4af37] text-black p-2 rounded-full hover:bg-[#b9931b] transition shadow-md"
+          className="absolute top-1/2 left-2 md:left-6 -translate-y-1/2 bg-[#d4af37] text-black p-2 sm:p-3 rounded-full hover:bg-[#b9931b] transition shadow-md z-10"
         >
           <ChevronLeft size={22} />
         </button>
 
         <button
           onClick={() => sliderRef.current.slickNext()}
-          className="absolute top-1/2 right-2 md:right-6 -translate-y-1/2 bg-[#d4af37] text-black p-2 rounded-full hover:bg-[#b9931b] transition shadow-md"
+          className="absolute top-1/2 right-2 md:right-6 -translate-y-1/2 bg-[#d4af37] text-black p-2 sm:p-3 rounded-full hover:bg-[#b9931b] transition shadow-md z-10"
         >
           <ChevronRight size={22} />
         </button>

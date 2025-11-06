@@ -8,13 +8,22 @@ import {
   FaMapMarkerAlt,
 } from "react-icons/fa";
 import { HiMail } from "react-icons/hi";
+import { Link, useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const navigate = useNavigate();
+
+  // handle internal link clicks and scroll to top
+  const handleNavigation = (path) => {
+    navigate(path);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
-    <footer className="bg-[#310502] text-[#f7f7f7]">
+    <footer className="bg-[#310502] text-[#f7f7f7] relative z-10">
       {/* Main Footer Section */}
-      <div className="mx-6 py-10">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+      <div className="px-6 py-10 max-w-7xl mx-auto">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Shivyantra Info */}
           <div>
             <h6 className="mb-4 font-semibold uppercase text-[#d4af37]">
@@ -41,9 +50,10 @@ const Footer = () => {
             ].map(([text, link]) => (
               <p
                 key={text}
-                className="mb-2 hover:text-[#d4af37] transition-colors"
+                className="mb-2 hover:text-[#d4af37] transition-colors cursor-pointer"
+                onClick={() => handleNavigation(link)}
               >
-                <a href={link}>{text}</a>
+                {text}
               </p>
             ))}
           </div>
@@ -62,9 +72,10 @@ const Footer = () => {
             ].map(([text, link]) => (
               <p
                 key={text}
-                className="mb-2 hover:text-[#d4af37] transition-colors"
+                className="mb-2 hover:text-[#d4af37] transition-colors cursor-pointer"
+                onClick={() => handleNavigation(link)}
               >
-                <a href={link}>{text}</a>
+                {text}
               </p>
             ))}
           </div>
@@ -101,7 +112,7 @@ const Footer = () => {
             </p>
 
             {/* Social Links */}
-            <div className="flex gap-4 mt-4">
+            <div className="flex gap-4 mt-4 flex-wrap">
               <a
                 href="https://www.facebook.com/shriworks"
                 target="_blank"
@@ -143,10 +154,10 @@ const Footer = () => {
       </div>
 
       {/* Divider */}
-      <hr className="border-[#d4af37]/40 opacity-30 mx-[5%]" />
+      <hr className="border-[#d4af37]/40 opacity-30 mx-6" />
 
       {/* Bottom Bar */}
-      <div className="text-[#f5e9c9] p-6 mx-[5%] text-center flex flex-col md:flex-row justify-between text-sm">
+      <div className="text-[#f5e9c9] p-6 mx-6 text-center flex flex-col md:flex-row md:justify-between gap-3 text-sm">
         <div>
           <span className="opacity-60">© 2024 Copyright: </span>
           <a

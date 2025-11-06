@@ -13,7 +13,7 @@ function Home() {
       <Hero />
       <CategorySlider />
       <SectionWithSlider />
-      <Us/>
+      <Us/> 
       <WhyChooseUs />
       <FAQ />
     </div>

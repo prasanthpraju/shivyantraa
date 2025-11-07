@@ -1,4 +1,4 @@
- import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -39,7 +39,10 @@ const Register = () => {
     setTimer(30);
 
     try {
-      await axios.post("https://shivyantra.onrender.com/api/register", formData);
+      await axios.post(
+        "https://shivyantra.onrender.com/api/register",
+        formData
+      );
 
       setLoading(false);
       setStep(2);
@@ -92,6 +95,10 @@ const Register = () => {
         showConfirmButton: false,
         timer: 2000,
       });
+      localStorage.setItem("username", formData.Name);
+      localStorage.setItem("Email", formData.Email);
+      localStorage.setItem("MobileNumber", formData.MobileNumber);
+
       setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
       setLoading(false);

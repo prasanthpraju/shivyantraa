@@ -1,4 +1,4 @@
- import React, { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -32,6 +32,7 @@ const Login = () => {
       localStorage.setItem("Email", formData.Email || user.Email || "");
       localStorage.setItem("isLoginned", "true");
       localStorage.setItem("username", user.username || user.name || "User");
+      localStorage.setItem("MobileNumber", user.MobileNumber || "");
 
       window.dispatchEvent(new Event("authChange"));
 
@@ -82,7 +83,7 @@ const Login = () => {
 
         {message && (
           <p
-            className={`text-center mb-4 ${ 
+            className={`text-center mb-4 ${
               message.startsWith("✅") ? "text-green-600" : "text-red-600"
             }`}
           >
@@ -92,7 +93,9 @@ const Login = () => {
 
         <form onSubmit={handleLogin} className="space-y-5">
           <div>
-            <label className="block text-gray-700 mb-1 font-medium">Email</label>
+            <label className="block text-gray-700 mb-1 font-medium">
+              Email
+            </label>
             <input
               type="email"
               name="Email"

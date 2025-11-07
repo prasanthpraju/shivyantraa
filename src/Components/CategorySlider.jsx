@@ -1,74 +1,55 @@
  import React, { useEffect, useState, useRef } from "react";
-import r1 from "../assets/r1.webp";
-import r2 from "../assets/r2.jpg";
-import r3 from "../assets/r3.webp";
-import r4 from "../assets/r4.webp";
-import r5 from "../assets/r5.webp";
-import r6 from "../assets/r6.webp";
-import r7 from "../assets/r7.jpg";
+import axios from "axios";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const CategorySlider = () => {
   const [categories, setCategories] = useState([]);
   const sliderRef = useRef(null);
   const cardRef = useRef(null);
-  const scrollAnimation = useRef(null);
-  const isPaused = useRef(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const data = [
-      { id: 1, name: "Electronics", image: r1 },
-      { id: 2, name: "Fashion", image: r2 },
-      { id: 3, name: "Home", image: r3 },
-      { id: 4, name: "Sports", image: r4 },
-      { id: 5, name: "Toys", image: r5 },
-      { id: 6, name: "Beauty", image: r6 },
-      { id: 7, name: "Books", image: r7 },
-    ];
-    setCategories(data);
+    const fetchCategories = async () => {
+      try {
+        const res = await axios.get(
+          "https://shivyantra.onrender.com/api/categories?populate=*"
+        );
+        const data = res.data?.data || [];
+        setCategories(data);
+      } catch (err) {
+        console.error("Error fetching categories:", err);
+      }
+    };
+    fetchCategories();
   }, []);
 
-  useEffect(() => {
-    const slider = sliderRef.current;
-    if (!slider) return;
-
-    let scrollPos = 0;
-    const scrollSpeed = 1.2;
-
-    const scroll = () => {
-      if (!isPaused.current) {
-        scrollPos += scrollSpeed;
-        if (scrollPos >= slider.scrollWidth - slider.clientWidth) {
-          scrollPos = 0;
-        }
-        slider.scrollLeft = scrollPos;
-      }
-      scrollAnimation.current = requestAnimationFrame(scroll);
-    };
-
-    scrollAnimation.current = requestAnimationFrame(scroll);
-
-    return () => cancelAnimationFrame(scrollAnimation.current);
-  }, [categories]);
-
-  const handleMouseEnter = () => (isPaused.current = true);
-  const handleMouseLeave = () => (isPaused.current = false);
-
-  const scrollLeft = () => {
+  const scroll = (direction) => {
     if (!sliderRef.current || !cardRef.current) return;
+    const scrollAmount = cardRef.current.offsetWidth + 24;
     sliderRef.current.scrollBy({
-      left: -cardRef.current.offsetWidth - 24, // 24 = gap-6 in px
+      left: direction === "left" ? -scrollAmount : scrollAmount,
       behavior: "smooth",
     });
   };
 
-  const scrollRight = () => {
-    if (!sliderRef.current || !cardRef.current) return;
-    sliderRef.current.scrollBy({
-      left: cardRef.current.offsetWidth + 24,
-      behavior: "smooth",
-    });
+  // ✅ Navigate to Shop page with category + subcategories in URL
+  const handleCategoryClick = (category) => {
+    const name = category?.Name || "Unknown";
+    const subCats = category?.subcategories?.map((s) => s.text) || [];
+    const query = new URLSearchParams();
+    query.set("category", name);
+    if (subCats.length) query.set("sub", subCats.join(","));
+    navigate(`/shop?${query.toString()}`);
   };
+
+  if (!categories.length) {
+    return (
+      <section className="py-16 text-center">
+        <p className="text-lg font-semibold">Loading categories...</p>
+      </section>
+    );
+  }
 
   return (
     <section className="relative bg-gradient-to-r from-[#310502] via-[#420303] to-[#3d0101] py-16 overflow-hidden">
@@ -82,43 +63,50 @@ const CategorySlider = () => {
       <div className="relative">
         <div
           ref={sliderRef}
-          className="flex gap-6 px-6 md:px-12 overflow-x-scroll no-scrollbar scroll-smooth"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
+          className="flex gap-6 px-6 md:px-12 overflow-x-auto no-scrollbar scroll-smooth"
         >
-          {categories.map((item, index) => (
-            <div
-              key={item.id}
-              ref={index === 0 ? cardRef : null} // first card reference
-              className="min-w-[220px] md:min-w-[260px] bg-[#fef9e7] rounded-2xl shadow-lg hover:shadow-[#d4af37]/40 transition-transform duration-500 hover:-translate-y-2 cursor-pointer flex-shrink-0 group"
-            >
-              <div className="relative overflow-hidden rounded-t-2xl">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-full h-55 md:h-70 object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#420303]/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
+          {categories.map((item, idx) => {
+            const imageUrl =
+              item?.CategoryImage?.[0]?.url ||
+              "https://via.placeholder.com/300x200.png?text=Category";
+
+            return (
+              <div
+                key={item.id || idx}
+                ref={idx === 0 ? cardRef : null}
+                onClick={() => handleCategoryClick(item)}
+                className="min-w-[220px] md:min-w-[260px] bg-[#fef9e7] rounded-2xl shadow-lg hover:shadow-[#d4af37]/40 transition-transform duration-500 hover:-translate-y-2 cursor-pointer flex-shrink-0 group"
+              >
+                <div className="relative overflow-hidden rounded-t-2xl">
+                  <img
+                    src={imageUrl}
+                    alt={item?.Name || "Category"}
+                    className="w-full h-55 md:h-70 object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#420303]/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
+                </div>
+                <div className="p-4 text-center">
+                  <h3 className="text-lg font-semibold text-[#d4af37] bg-[#310502] w-full uppercase tracking-wide rounded-md py-1">
+                    {item?.Name || "Unknown"}
+                  </h3>
+                </div>
               </div>
-              <div className="p-4 text-center">
-                <h3 className="text-lg font-semibold text-[#d4af37] bg-[#310502] w-full uppercase tracking-wide rounded-md py-1">
-                  {item.name}
-                </h3>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
-        {/* Side Buttons */}
+        {/* Arrows */}
         <button
-          onClick={scrollLeft}
+          onClick={() => scroll("left")}
+          aria-label="Scroll Left"
           className="absolute top-1/2 left-2 md:left-6 -translate-y-1/2 z-20 bg-[#d4af37] text-black p-2 rounded-full shadow-md hover:bg-[#b9931b] transition"
         >
           <ChevronLeft size={22} />
         </button>
-
         <button
-          onClick={scrollRight}
+          onClick={() => scroll("right")}
+          aria-label="Scroll Right"
           className="absolute top-1/2 right-2 md:right-6 -translate-y-1/2 z-20 bg-[#d4af37] text-black p-2 rounded-full shadow-md hover:bg-[#b9931b] transition"
         >
           <ChevronRight size={22} />

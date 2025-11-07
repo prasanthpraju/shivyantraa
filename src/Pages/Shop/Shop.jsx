@@ -1,134 +1,175 @@
- import React, { useState, useRef, useEffect } from "react";
-import { Filter, X } from "lucide-react";
-// import productImg from "../../assets/rudraksha1.webp"; // sample product image
+ import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Shop = () => {
-  const [filterOpen, setFilterOpen] = useState(false);
-  const filterRef = useRef(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const searchParams = new URLSearchParams(location.search);
 
-  // Close filter when clicking outside
+  const initialCategory = searchParams.get("category") || "";
+
+  const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+  const [sortOption, setSortOption] = useState("Featured");
+
+  // Fetch all categories
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (filterRef.current && !filterRef.current.contains(event.target)) {
-        setFilterOpen(false);
+    const fetchCategories = async () => {
+      try {
+        const res = await axios.get(
+          "https://shivyantra.onrender.com/api/categories?populate=*"
+        );
+        setCategories(res.data?.data || []);
+      } catch (err) {
+        console.error("Error fetching categories:", err);
       }
     };
-    if (filterOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+    fetchCategories();
+  }, []);
+
+  // Fetch products based on category
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        if (selectedCategory) {
+          const res = await axios.get(
+            `https://shivyantra.onrender.com/api/categories?populate[products][populate]=*&filters[Name][$eq]=${selectedCategory}`
+          );
+          const catData = res.data?.data?.[0];
+          const catProducts = catData?.products || [];
+          setProducts(catProducts);
+        } else {
+          const res = await axios.get(
+            "https://shivyantra.onrender.com/api/products?populate=*"
+          );
+          setProducts(res.data?.data || []);
+        }
+      } catch (err) {
+        console.error("Error fetching products:", err);
+      } finally {
+        setLoading(false);
+      }
     };
-  }, [filterOpen]);
+    fetchProducts();
+  }, [selectedCategory]);
+
+  // Sorting
+  const sortedProducts = [...products].sort((a, b) => {
+    const priceA = Number(a.Price) || 0;
+    const priceB = Number(b.Price) || 0;
+    if (sortOption === "Low to High") return priceA - priceB;
+    if (sortOption === "High to Low") return priceB - priceA;
+    return 0; // Featured
+  });
+
+  const handleCategorySelect = (name) => {
+    setSelectedCategory(name);
+    navigate(`/shop?category=${encodeURIComponent(name)}`);
+  };
+
+  const handleShowAll = () => {
+    setSelectedCategory("");
+    navigate("/shop");
+  };
+
+  if (loading)
+    return (
+      <p className="text-center py-20 text-xl font-semibold text-gray-500">
+        Loading products...
+      </p>
+    );
 
   return (
-    <div className="min-h-screen bg-[#fdf8f2] text-[#3b1d0f] relative overflow-hidden">
-      {/* ===== Header ===== */}
-      <section className="w-full bg-white py-10 text-center font-bold text-red-900 shadow-md">
-        <h1 className="text-3xl md:text-4xl font-semibold font-extrabold uppercase tracking-wide">
-          Our Shop
-        </h1>
-        <p className=" text-red-950 mt-2">
-          Explore Authentic Rudraksha & Spiritual Products
-        </p>
-      </section>
-
-      {/* ===== Main Section ===== */}
-      <div className="flex flex-col md:flex-row gap-6 p-6 md:p-10 relative">
-        {/* ===== Filter Sidebar ===== */}
-        {/* Overlay background (mobile only) */}
-        {filterOpen && (
-          <div className="fixed inset-0 bg-black/30 z-30 md:hidden" />
-        )}
-
-        <aside
-          ref={filterRef}
-          className={`fixed md:static z-40 top-0 left-0 h-full md:h-auto w-3/4 md:w-64 bg-[#fbf2e8] md:bg-transparent shadow-lg md:shadow-none p-6 md:p-0 transform transition-transform duration-300 ${
-            filterOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-          }`}
-        >
-          {/* Close Button (Mobile) */}
-          <button
-            onClick={() => setFilterOpen(false)}
-            className="absolute top-4 right-4 md:hidden text-[#5b2a0c]"
+    <div className="container mx-auto px-4 py-10">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row justify-between items-center mb-8">
+        <h2 className="text-3xl font-bold mb-4 md:mb-0">
+          {selectedCategory ? `${selectedCategory} Products` : "All Products"}
+        </h2>
+        <div className="flex items-center">
+          <label className="font-medium mr-2">Sort By:</label>
+          <select
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value)}
+            className="border border-gray-300 rounded px-3 py-1 text-sm focus:ring-2 focus:ring-[#d4af37] focus:outline-none"
           >
-            {/* <X size={24} /> */}
-          </button>
+            <option value="Featured">Featured</option>
+            <option value="Low to High">Price: Low to High</option>
+            <option value="High to Low">Price: High to Low</option>
+          </select>
+        </div>
+      </div>
 
-          <h2 className="text-xl font-semibold mb-4 text-[#4e1f07] uppercase">
-            Filters
-          </h2>
-
-          <div className="space-y-5 text-sm">
-            {/* Category */}
-            <div>
-              <h3 className="font-medium text-[#3b1d0f] mb-1">Category</h3>
-              <ul className="space-y-1">
-                <li><input type="checkbox" /> <span>Rudraksha</span></li>
-                <li><input type="checkbox" /> <span>Bracelets</span></li>
-                <li><input type="checkbox" /> <span>Mala</span></li>
-                <li><input type="checkbox" /> <span>Yantra</span></li>
-              </ul>
-            </div>
-
-            {/* Price Range */}
-            <div>
-              <h3 className="font-medium text-[#3b1d0f] mb-1">Price Range</h3>
-              <input type="range" className="w-full accent-[#5b2a0c]" />
-            </div>
-
-            {/* Sort */}
-            <div>
-              <h3 className="font-medium text-[#3b1d0f] mb-1">Sort By</h3>
-              <select className="w-full p-2 border border-[#d4c3b8] rounded bg-[#fffaf6] text-[#3b1d0f]">
-                <option>Featured</option>
-                <option>Low to High</option>
-                <option>High to Low</option>
-                <option>Newest</option>
-              </select>
-            </div>
-          </div>
-
-          {/* ✅ Done Button (Mobile only) */}
-          <button
-            onClick={() => setFilterOpen(false)}
-            className="mt-8 w-full md:hidden bg-[#5b2a0c] text-white py-2 rounded font-medium hover:bg-[#4e1f07] transition"
-          >
-            Done
-          </button>
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+        {/* Sidebar */}
+        <aside className="md:col-span-1 border-r pr-4">
+          <h3 className="text-lg font-semibold mb-4 border-b pb-2">Categories</h3>
+          <ul className="space-y-2">
+            <li>
+              <button
+                onClick={handleShowAll}
+                className={`block w-full text-left px-3 py-2 rounded-md font-medium transition-colors ${
+                  !selectedCategory
+                    ? "bg-[#d4af37] text-black"
+                    : "hover:bg-gray-100"
+                }`}
+              >
+                All Products
+              </button>
+            </li>
+            {categories.map((cat) => (
+              <li key={cat.id}>
+                <button
+                  onClick={() => handleCategorySelect(cat.Name)}
+                  className={`block w-full text-left px-3 py-2 rounded-md font-medium transition-colors ${
+                    selectedCategory === cat.Name
+                      ? "bg-[#d4af37] text-black"
+                      : "hover:bg-gray-100"
+                  }`}
+                >
+                  {cat.Name}
+                </button>
+              </li>
+            ))}
+          </ul>
         </aside>
 
-        {/* ===== Filter Toggle (Mobile) ===== */}
-        <button
-          onClick={() => setFilterOpen(true)}
-          className="md:hidden flex items-center gap-2 bg-[#5b2a0c] text-white px-4 py-2 rounded shadow-md w-fit z-10"
-        >
-          <Filter size={18} /> Filters
-        </button>
-
-        {/* ===== Products Grid ===== */}
-        <main className="flex-1">
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-            {[...Array(8)].map((_, i) => (
-              <div
-                key={i}
-                className="bg-[#fffaf6] border border-[#e7d9c9] rounded-xl shadow-sm hover:shadow-md transition p-4 text-center"
-              >
-                <img
-                  // src={productImg}
-                  alt="Rudraksha"
-                  className="w-full h-40 object-cover rounded-md mb-3"
-                />
-                <h3 className="font-semibold text-[#3b1d0f]">
-                  Rudraksha {i + 1}
-                </h3>
-                <p className="text-sm text-[#4a2b15] mt-1">₹1,200</p>
-                <button className="mt-3 bg-[#5b2a0c] hover:bg-[#4e1f07] text-white py-1.5 px-4 rounded text-sm font-medium transition">
-                  View Details
-                </button>
-              </div>
-            ))}
-          </div>
+        {/* Product Grid */}
+        <main className="md:col-span-4">
+          {sortedProducts.length === 0 ? (
+            <p className="text-center py-20 text-gray-500 text-lg">
+              No products found.
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {sortedProducts.map((product) => {
+                const imageUrl =
+                  product.ProductImage?.[0]?.url ||
+                  "https://via.placeholder.com/300x250?text=No+Image";
+                return (
+                  <div
+                    key={product.id}
+                    className="border rounded-lg p-4 shadow hover:shadow-xl transition duration-300 transform hover:-translate-y-1 hover:scale-105"
+                  >
+                    <img
+                      src={imageUrl}
+                      alt={product.ProductName}
+                      className="w-full h-56 object-cover rounded-md mb-4"
+                    />
+                    <h3 className="font-semibold text-lg mb-2">{product.ProductName}</h3>
+                    <p className="text-gray-600 font-medium mb-2">₹{product.Price}</p>
+                    <button className="w-full bg-[#d4af37] text-black py-2 rounded-md font-semibold hover:bg-[#b8972b] transition">
+                      Add to Cart
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </main>
       </div>
     </div>

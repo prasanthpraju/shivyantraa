@@ -170,15 +170,34 @@ const TopNav = () => {
               </div>
 
               {/* Profile Icon */}
+              {/* Profile Icon (Dropdown Menu) */}
               {isLoggedIn && (
-                <div
-                  className="w-9 h-9 rounded-full bg-[#d4af37] text-[#310502] flex items-center justify-center font-bold cursor-pointer hover:bg-[#f0cf77] transition-all"
-                  title={localStorage.getItem("username") || "User"}
-                  onClick={() => navigate("/profile")}
-                >
-                  {(localStorage.getItem("username") || "u")
-                    .charAt(0)
-                    .toUpperCase()}
+                <div className="relative group">
+                  <div
+                    className="w-9 h-9 rounded-full bg-[#d4af37] text-[#310502] flex items-center justify-center font-bold cursor-pointer hover:bg-[#f0cf77] transition-all"
+                    onClick={() => navigate("/profile")}
+                    title={localStorage.getItem("username") || "Profile"}
+                  >
+                    {(localStorage.getItem("username") || "U")
+                      .charAt(0)
+                      .toUpperCase()}
+                  </div>
+
+                  {/* Optional Hover Tooltip */}
+                  <div className="absolute right-0 mt-2 hidden group-hover:block bg-white text-[#310502] rounded-lg shadow-md w-32 text-center py-2 z-50">
+                    <button
+                      onClick={() => navigate("/profile")}
+                      className="block w-full hover:bg-[#d4af37]/20 py-1"
+                    >
+                      Profile
+                    </button>
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full hover:bg-[#d4af37]/20 py-1"
+                    >
+                      Logout
+                    </button>
+                  </div>
                 </div>
               )}
 

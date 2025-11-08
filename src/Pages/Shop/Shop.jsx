@@ -1,6 +1,7 @@
  import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
+import Shopbg from "../../../src/assets/ii.png"; // matching background
 
 const Shop = () => {
   const location = useLocation();
@@ -84,93 +85,135 @@ const Shop = () => {
     );
 
   return (
-    <div className="container mx-auto px-4 py-10">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-        <h2 className="text-3xl font-bold mb-4 md:mb-0">
-          {selectedCategory ? `${selectedCategory} Products` : "All Products"}
-        </h2>
-        <div className="flex items-center">
-          <label className="font-medium mr-2">Sort By:</label>
-          <select
-            value={sortOption}
-            onChange={(e) => setSortOption(e.target.value)}
-            className="border border-gray-300 rounded px-3 py-1 text-sm focus:ring-2 focus:ring-[#d4af37] focus:outline-none"
-          >
-            <option value="Featured">Featured</option>
-            <option value="Low to High">Price: Low to High</option>
-            <option value="High to Low">Price: High to Low</option>
-          </select>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
-        {/* Sidebar */}
-        <aside className="md:col-span-1 border-r pr-4">
-          <h3 className="text-lg font-semibold mb-4 border-b pb-2">Categories</h3>
-          <ul className="space-y-2">
-            <li>
-              <button
-                onClick={handleShowAll}
-                className={`block w-full text-left px-3 py-2 rounded-md font-medium transition-colors ${
-                  !selectedCategory
-                    ? "bg-[#d4af37] text-black"
-                    : "hover:bg-gray-100"
-                }`}
-              >
-                All Products
-              </button>
-            </li>
-            {categories.map((cat) => (
-              <li key={cat.id}>
-                <button
-                  onClick={() => handleCategorySelect(cat.Name)}
-                  className={`block w-full text-left px-3 py-2 rounded-md font-medium transition-colors ${
-                    selectedCategory === cat.Name
-                      ? "bg-[#d4af37] text-black"
-                      : "hover:bg-gray-100"
-                  }`}
-                >
-                  {cat.Name}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </aside>
-
-        {/* Product Grid */}
-        <main className="md:col-span-4">
-          {sortedProducts.length === 0 ? (
-            <p className="text-center py-20 text-gray-500 text-lg">
-              No products found.
-            </p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {sortedProducts.map((product) => {
-                const imageUrl =
-                  product.ProductImage?.[0]?.url ||
-                  "https://via.placeholder.com/300x250?text=No+Image";
-                return (
-                  <div
-                    key={product.id}
-                    className="border rounded-lg p-4 shadow hover:shadow-xl transition duration-300 transform hover:-translate-y-1 hover:scale-105"
-                  >
-                    <img
-                      src={imageUrl}
-                      alt={product.ProductName}
-                      className="w-full h-56 object-cover rounded-md mb-4"
-                    />
-                    <h3 className="font-semibold text-lg mb-2">{product.ProductName}</h3>
-                    <p className="text-gray-600 font-medium mb-2">₹{product.Price}</p>
-                    <button className="w-full bg-[#d4af37] text-black py-2 rounded-md font-semibold hover:bg-[#b8972b] transition">
-                      Add to Cart
-                    </button>
-                  </div>
-                );
-              })}
+    <div
+      className="min-h-screen bg-fixed bg-center bg-cover py-16"
+      style={{ backgroundImage: `linear-gradient(rgba(250,245,235,0.92), rgba(241,233,211,0.92)), url(${Shopbg})` }}
+    >
+      <div className="container mx-auto px-4">
+        <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl p-6 md:p-8 border border-amber-200">
+          {/* Header */}
+          <div className="flex flex-col md:flex-row justify-between items-center mb-6">
+            <div>
+              <h2 className="text-3xl font-extrabold text-red-900 mb-1">
+                {selectedCategory ? `${selectedCategory} Products` : "All Products"}
+              </h2>
+              <p className="text-sm text-amber-800/90">Explore quality items curated for you</p>
             </div>
-          )}
-        </main>
+
+            <div className="mt-4 md:mt-0 flex items-center gap-4">
+              <label className="font-medium">Sort By:</label>
+              <select
+                value={sortOption}
+                onChange={(e) => setSortOption(e.target.value)}
+                className="border border-amber-200 rounded px-3 py-1 text-sm focus:ring-2 focus:ring-amber-300 focus:outline-none"
+              >
+                <option value="Featured">Featured</option>
+                <option value="Low to High">Price: Low to High</option>
+                <option value="High to Low">Price: High to Low</option>
+              </select>
+
+              <button
+                onClick={() => navigate('/cart')}
+                className="hidden md:inline-flex items-center gap-2 bg-amber-700 text-amber-50 px-4 py-2 rounded-lg shadow hover:brightness-95 transition"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M16 11V3a1 1 0 00-1-1H5a1 1 0 00-1 1v8H2v2h1l1 5h10l1-5h1v-2h-2zm-3 7H7l-.6-3h6.2L13 18z" />
+                </svg>
+                View Cart
+              </button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+            {/* Sidebar */}
+            <aside className="md:col-span-1">
+              <div className="sticky top-6">
+                <h3 className="text-lg font-semibold mb-4 border-b pb-2">Categories</h3>
+                <ul className="space-y-2">
+                  <li>
+                    <button
+                      onClick={handleShowAll}
+                      className={`w-full text-left px-3 py-2 rounded-md font-medium transition-colors ${
+                        !selectedCategory ? "bg-amber-300 text-black" : "hover:bg-gray-100"
+                      }`}
+                    >
+                      All Products
+                    </button>
+                  </li>
+                  {categories.map((cat) => (
+                    <li key={cat.id}>
+                      <button
+                        onClick={() => handleCategorySelect(cat.Name)}
+                        className={`w-full text-left px-3 py-2 rounded-md font-medium transition-colors ${
+                          selectedCategory === cat.Name ? "bg-amber-300 text-black" : "hover:bg-gray-100"
+                        }`}
+                      >
+                        {cat.Name}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </aside>
+
+            {/* Product Grid */}
+            <main className="md:col-span-4">
+              {sortedProducts.length === 0 ? (
+                <p className="text-center py-20 text-gray-500 text-lg">No products found.</p>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {sortedProducts.map((product) => {
+                    const imageUrl =
+                      product.ProductImage?.[0]?.url ||
+                      "https://via.placeholder.com/300x250?text=No+Image";
+
+                    return (
+                      <div
+                        key={product.id}
+                        className="group relative border rounded-2xl p-4 shadow-sm hover:shadow-lg transition-transform duration-300 hover:-translate-y-1"
+                      >
+                        <div className="overflow-hidden rounded-lg">
+                          <img src={imageUrl} alt={product.ProductName} className="w-full h-52 object-cover group-hover:scale-105 transition-transform duration-500 rounded-lg" />
+                        </div>
+
+                        <div className="mt-4 flex justify-between items-start gap-4">
+                          <div>
+                            <h3 className="font-semibold text-lg text-gray-800">{product.ProductName}</h3>
+                            <p className="text-sm text-gray-600 mt-1">{product.ShortDescription || ''}</p>
+                          </div>
+
+                          <div className="text-right">
+                            <div className="text-xl font-bold text-amber-800">₹{product.Price}</div>
+                            <div className="text-xs text-gray-500">Inclusive of taxes</div>
+                          </div>
+                        </div>
+
+                        <div className="mt-4 flex gap-3">
+                          <button
+                            onClick={() => navigate(`/product/${product.id}`)}
+                            className="flex-1 bg-amber-600 text-white py-2 rounded-lg font-semibold hover:brightness-95 transition"
+                          >
+                            View Details
+                          </button>
+
+                          <button
+                            onClick={() => navigate(`/cart/add/${product.id}`)}
+                            className="flex-none border border-amber-600 text-amber-700 py-2 px-4 rounded-lg font-semibold hover:bg-amber-50 transition"
+                          >
+                            Add to Cart
+                          </button>
+                        </div>
+
+                        {/* badge */}
+                        <span className="absolute top-3 left-3 bg-amber-700 text-amber-50 text-xs font-semibold px-2 py-1 rounded">{product.Badge || 'Best Seller'}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </main>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-// import ProfileBg from "../../assets/ii.png"; // use the same bg image if you want
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -25,61 +24,92 @@ const Profile = () => {
       return;
     }
 
-    // Load user info from localStorage
+    const username = (
+      localStorage.getItem("username") ||
+      localStorage.getItem("Name") ||
+      localStorage.getItem("name") ||
+      "User"
+    )
+      .toString()
+      .trim();
+
     setUserData({
-      Name: localStorage.getItem("username") || "User",
-      Email: localStorage.getItem("Email") || "N/A",
-      MobileNumber: localStorage.getItem("MobileNumber") || "N/A",
+      Name: username || "User",
+      Email: (localStorage.getItem("Email") || "N/A").toString().trim(),
+      MobileNumber: (localStorage.getItem("MobileNumber") || "N/A").toString().trim(),
     });
   }, [navigate]);
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-center bg-cover bg-center px-4 relative"
-    //   style={{ backgroundImage: `url(${ProfileBg})` }}
-    >
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+    <div className="min-h-screen flex items-center justify-center bg-amber-50 px-4 relative">
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/5 to-black/20 pointer-events-none"></div>
 
-      <div className="relative z-10 bg-white/90 rounded-2xl shadow-2xl p-8 sm:p-10 max-w-md w-full border border-[#d4af37]/40">
-        <h2 className="text-3xl font-bold text-center text-[#310502] mb-6">
-          My Profile
-        </h2>
-
-        <div className="space-y-4 text-[#310502]">
+      <div className="relative z-10 w-full max-w-lg p-8 md:p-10 rounded-3xl shadow-2xl bg-white/95 border border-amber-200">
+        <div className="flex items-center gap-4 mb-6">
+          <div className="w-20 h-20 rounded-full bg-amber-200 flex items-center justify-center text-2xl font-bold text-amber-800">
+            {(userData.Name || "U").charAt(0).toUpperCase()}
+          </div>
           <div>
-            <label className="block text-gray-700 font-semibold mb-1">
-              Full Name
-            </label>
-            <p className="bg-gray-100 border border-gray-300 rounded-lg px-3 py-2">
-              {userData.Name}
+            <h2 className="text-2xl font-extrabold text-red-900">{userData.Name || "User"}</h2>
+            <p className="text-sm text-amber-800/90">
+              Member since <strong>2025</strong>
             </p>
           </div>
-
-          <div>
-            <label className="block text-gray-700 font-semibold mb-1">
-              Email
-            </label>
-            <p className="bg-gray-100 border border-gray-300 rounded-lg px-3 py-2">
-              {userData.Email}
-            </p>
-          </div>
-
-          <div>
-            <label className="block text-gray-700 font-semibold mb-1">
-              Mobile Number
-            </label>
-            <p className="bg-gray-100 border border-gray-300 rounded-lg px-3 py-2">
-              {userData.MobileNumber}
-            </p>
+          <div className="ml-auto">
+            <button
+              onClick={() => {
+                localStorage.removeItem("refresh_token");
+                localStorage.removeItem("isLoginned");
+                Swal.fire({
+                  icon: "success",
+                  title: "Logged out",
+                  showConfirmButton: false,
+                  timer: 1200,
+                }).then(() => navigate("/"));
+              }}
+              className="text-sm bg-red-900 text-yellow-100 px-3 py-1 rounded-md shadow hover:brightness-95"
+            >
+              Logout
+            </button>
           </div>
         </div>
 
-        <button
-          onClick={() => navigate("/")}
-          className="w-full mt-6 bg-[#310502] text-[#f7f7f7] py-2 rounded-lg hover:bg-[#4b0b0b] transition-all"
-        >
-          Back to Home
-        </button>
+        <div className="grid grid-cols-1 gap-4">
+          <div className="bg-white rounded-xl p-3 border">
+            <div className="text-xs text-gray-500 mb-1">Full Name</div>
+            <div className="text-sm text-[#310502] font-medium">{userData.Name}</div>
+          </div>
+
+          <div className="bg-white rounded-xl p-3 border">
+            <div className="text-xs text-gray-500 mb-1">Email</div>
+            <div className="text-sm text-[#310502] font-medium">{userData.Email}</div>
+          </div>
+
+          <div className="bg-white rounded-xl p-3 border">
+            <div className="text-xs text-gray-500 mb-1">Mobile Number</div>
+            <div className="text-sm text-[#310502] font-medium">{userData.MobileNumber}</div>
+          </div>
+        </div>
+
+        <div className="mt-6 grid grid-cols-2 gap-3">
+          <button
+            onClick={() => navigate("/profile/edit")}
+            className="w-full bg-amber-700 text-amber-50 py-2 rounded-lg font-semibold hover:brightness-95 transition"
+          >
+            Edit Profile
+          </button>
+
+          <button
+            onClick={() => navigate("/")}
+            className="w-full border border-amber-700 text-amber-700 py-2 rounded-lg font-semibold hover:bg-amber-50 transition"
+          >
+            Back to Home
+          </button>
+        </div>
+
+        <p className="text-center mt-5 text-xs text-amber-700/80">
+          You can update details from the Edit Profile page. Changes reflect after saving.
+        </p>
       </div>
     </div>
   );

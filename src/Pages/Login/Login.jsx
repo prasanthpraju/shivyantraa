@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -67,24 +67,37 @@ const Login = () => {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-center bg-no-repeat bg-cover relative px-4"
+      className="min-h-screen flex items-center justify-center px-4 relative"
       style={{
-        backgroundImage: `url(${Loginbg})`,
+        // classic / vintage style: subtle parchment gradient blended with provided image
+        backgroundImage: `linear-gradient(180deg, rgba(250,245,235,0.95), rgba(241,233,211,0.95)), url(${Loginbg})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
       }}
     >
-      {/* 🔹 Semi-transparent overlay */}
-      <div className="absolute inset-0 bg-black/50"></div>
+      {/* warm vignette overlay for classic feel */}
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-black/10 to-black/25 mix-blend-multiply"></div>
 
-      {/* 🔸 Login Card */}
-      <div className="relative z-10 bg-white/90   shadow-2xl rounded-2xl p-8 w-full max-w-md border border-[#d4af37]/30 backdrop-blur-md sm:p-10 md:p-12">
-        <h2 className="text-3xl font-bold text-red-900 text-center mb-6 drop-shadow-sm">
-          Login
-        </h2>
+      {/* centered card */}
+      <div className="relative z-10 w-full max-w-lg p-8 md:p-10 rounded-3xl shadow-2xl bg-amber-50/95 border border-amber-200">
+        {/* header */}
+        <div className="flex items-center gap-4 mb-6">
+          <div className="flex-shrink-0 w-14 h-14 rounded-full bg-gradient-to-tr from-red-900 to-amber-600 flex items-center justify-center shadow-md">
+            {/* subtle monogram */}
+            <span className="text-yellow-100 font-bold text-lg">SV</span>
+          </div>
+
+          <div>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-red-900">Welcome back</h2>
+            <p className="text-sm text-amber-800/80">Login to continue to Shivyantra</p>
+          </div>
+        </div>
 
         {message && (
           <p
-            className={`text-center mb-4 ${
-              message.startsWith("✅") ? "text-green-600" : "text-red-600"
+            className={`text-center mb-4 px-4 py-2 rounded-md text-sm font-medium ${
+              message.startsWith("✅") ? "text-green-700 bg-green-50" : "text-red-800 bg-red-50"
             }`}
           >
             {message}
@@ -93,62 +106,79 @@ const Login = () => {
 
         <form onSubmit={handleLogin} className="space-y-5">
           <div>
-            <label className="block text-gray-700 mb-1 font-medium">
-              Email
-            </label>
-            <input
-              type="email"
-              name="Email"
-              placeholder="Enter your email"
-              value={formData.Email}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-900 outline-none"
-              required
-            />
+            <label className="block text-amber-800 mb-2 font-medium">Email</label>
+            <div className="relative">
+              <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                {/* mail icon */}
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-600/80" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M2.94 6.94a2 2 0 01.36-.3L10 2l6.7 4.64c.12.08.24.17.35.28A2 2 0 0118 8v6a2 2 0 01-2 2H4a2 2 0 01-2-2V8c0-.35.07-.68.19-.98z" />
+                </svg>
+              </span>
+              <input
+                type="email"
+                name="Email"
+                placeholder="you@example.com"
+                value={formData.Email}
+                onChange={handleChange}
+                className="w-full border border-amber-200 rounded-xl pl-11 pr-3 py-2 focus:ring-2 focus:ring-amber-300 outline-none bg-white/95"
+                required
+              />
+            </div>
           </div>
 
           <div>
-            <label className="block text-gray-700 mb-1 font-medium">
-              Password
-            </label>
-            <input
-              type="password"
-              name="Password"
-              placeholder="Enter your password"
-              value={formData.Password}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-900 outline-none"
-              required
-            />
+            <label className="block text-amber-800 mb-2 font-medium">Password</label>
+            <div className="relative">
+              <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                {/* lock icon */}
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-600/80" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M5 8V6a5 5 0 1110 0v2h1a1 1 0 011 1v7a1 1 0 01-1 1H4a1 1 0 01-1-1v-7a1 1 0 011-1h1zm2-2a3 3 0 116 0v2H7V6z" clipRule="evenodd" />
+                </svg>
+              </span>
+              <input
+                type="password"
+                name="Password"
+                placeholder="Enter your password"
+                value={formData.Password}
+                onChange={handleChange}
+                className="w-full border border-amber-200 rounded-xl pl-11 pr-3 py-2 focus:ring-2 focus:ring-amber-300 outline-none bg-white/95"
+                required
+              />
+            </div>
           </div>
 
-          <div className="text-right">
+          <div className="flex items-center justify-between">
             <button
               type="button"
               onClick={() => navigate("/forgot-password")}
-              className="text-sm text-red-900 hover:underline font-semibold cursor-pointer"
+              className="text-sm text-amber-900 hover:underline font-medium"
             >
               Forgot Password?
             </button>
+
+            <div className="text-sm text-amber-700"> 
+              <span className="hidden md:inline">Need an account?</span>
+              <span
+                onClick={() => navigate("/register")}
+                className="ml-2 text-amber-900 font-semibold cursor-pointer hover:underline"
+              >
+                Register
+              </span>
+            </div>
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-red-900 cursor-pointer text-yellow-100 font-semibold py-2 rounded-lg hover:bg-red-800 transition-all shadow-md"
+            className="w-full bg-amber-700 text-amber-50 font-semibold py-2 rounded-xl hover:brightness-95 transition-all shadow-inner disabled:opacity-60"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
-        <p className="text-center mt-5 text-gray-700 text-sm">
-          Don’t have an account?{" "}
-          <span
-            onClick={() => navigate("/register")}
-            className="text-red-900 font-semibold cursor-pointer hover:underline"
-          >
-            Register here
-          </span>
+        {/* subtle footer */}
+        <p className="text-center mt-6 text-xs text-amber-700/80">
+          By continuing, you agree to our <span className="underline">Terms</span> and <span className="underline">Privacy Policy</span>.
         </p>
       </div>
     </div>

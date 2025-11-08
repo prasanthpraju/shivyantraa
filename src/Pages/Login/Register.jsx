@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -39,10 +39,7 @@ const Register = () => {
     setTimer(30);
 
     try {
-      await axios.post(
-        "https://shivyantra.onrender.com/api/register",
-        formData
-      );
+      await axios.post("https://shivyantra.onrender.com/api/register", formData);
 
       setLoading(false);
       setStep(2);
@@ -58,8 +55,7 @@ const Register = () => {
       });
     } catch (err) {
       setLoading(false);
-      const errorMsg =
-        err.response?.data?.message || "❌ Registration failed. Try again.";
+      const errorMsg = err.response?.data?.message || "❌ Registration failed. Try again.";
       setMessage(errorMsg);
 
       Swal.fire({
@@ -78,13 +74,10 @@ const Register = () => {
     setMessage("");
 
     try {
-      await axios.post(
-        "https://shivyantra.onrender.com/api/register/otp-verify",
-        {
-          Email: formData.Email,
-          Otp: otp,
-        }
-      );
+      await axios.post("https://shivyantra.onrender.com/api/register/otp-verify", {
+        Email: formData.Email,
+        Otp: otp,
+      });
 
       setLoading(false);
       setMessage("✅ OTP Verified!");
@@ -102,8 +95,7 @@ const Register = () => {
       setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
       setLoading(false);
-      const errorMsg =
-        err.response?.data?.message || "❌ Invalid or expired OTP.";
+      const errorMsg = err.response?.data?.message || "❌ Invalid or expired OTP.";
       setMessage(errorMsg);
     }
   };
@@ -114,18 +106,15 @@ const Register = () => {
     setMessage("");
 
     try {
-      await axios.post(
-        "https://shivyantra.onrender.com/api/register/resend-otp",
-        {
-          Email: formData.Email,
-        }
-      );
+      await axios.post("https://shivyantra.onrender.com/api/register/resend-otp", {
+        Email: formData.Email,
+      });
       setLoading(false);
       setMessage("🔁 OTP resent successfully!");
+      setTimer(30);
     } catch (err) {
       setLoading(false);
-      const errorMsg =
-        err.response?.data?.message || "❌ Failed to resend OTP.";
+      const errorMsg = err.response?.data?.message || "❌ Failed to resend OTP.";
       setMessage(errorMsg);
     }
   };
@@ -134,24 +123,37 @@ const Register = () => {
     <div
       className="relative flex items-center justify-center min-h-screen w-full bg-center bg-cover bg-no-repeat px-4 py-10"
       style={{
-        backgroundImage: `url(${Registerbg})`,
+        backgroundImage: `linear-gradient(180deg, rgba(250,245,235,0.92), rgba(241,233,211,0.92)), url(${Registerbg})`,
       }}
     >
-      {/* ✨ Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/50 to-red-900/40 backdrop-blur-[2px]" />
+      {/* ✨ Warm Vignette Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-black/20 to-transparent backdrop-blur-[1px]" />
 
-      {/* 🔸 Register Card */}
-      <div className="relative z-10 bg-white/90 shadow-2xl rounded-2xl p-8 w-full max-w-md border border-[#d4af37]/30 backdrop-blur-md sm:p-10 md:p-12 transform hover:scale-[1.01] transition-all duration-300">
-        <h2 className="text-3xl font-bold text-center text-red-900 mb-6 uppercase">
-          {step === 1 ? "Create Account" : "Verify OTP"}
-        </h2>
+      {/* 🔸 Register Card (classic/vintage look) */}
+      <div className="relative z-10 bg-amber-50/95 shadow-2xl rounded-3xl p-8 w-full max-w-lg border border-amber-200/60 backdrop-blur-md sm:p-10 md:p-12">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-red-900">
+              {step === 1 ? "Create Your Account" : "Verify OTP"}
+            </h2>
+            <p className="text-sm text-amber-800/90">
+              {step === 1
+                ? "Join Shivyantra — quick signup."
+                : `We sent an OTP to ${formData.Email}`}
+            </p>
+          </div>
+
+          <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-red-900 to-amber-600 flex items-center justify-center shadow-md">
+            <span className="text-yellow-100 font-bold">SV</span>
+          </div>
+        </div>
 
         {message && (
           <div
-            className={`text-center mb-4 font-medium ${
+            className={`text-center mb-4 px-4 py-2 rounded-md text-sm font-medium ${
               message.startsWith("✅") || message.startsWith("🔁")
-                ? "text-green-700"
-                : "text-red-700"
+                ? "text-green-700 bg-green-50"
+                : "text-red-800 bg-red-50"
             }`}
           >
             {message}
@@ -162,76 +164,64 @@ const Register = () => {
         {step === 1 && (
           <form onSubmit={handleRegister} className="space-y-4">
             <div>
-              <label className="block text-gray-700 font-medium mb-1">
-                Full Name
-              </label>
+              <label className="block text-amber-800 font-medium mb-2">Full Name</label>
               <input
                 type="text"
                 name="Name"
                 required
                 value={formData.Name}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-900 focus:outline-none"
+                className="w-full border border-amber-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-amber-300 outline-none bg-white/95"
               />
             </div>
 
             <div>
-              <label className="block text-gray-700 font-medium mb-1">
-                Email Address
-              </label>
+              <label className="block text-amber-800 font-medium mb-2">Email Address</label>
               <input
                 type="email"
                 name="Email"
                 required
                 value={formData.Email}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-900 focus:outline-none"
+                className="w-full border border-amber-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-amber-300 outline-none bg-white/95"
               />
             </div>
 
             <div>
-              <label className="block text-gray-700 font-medium mb-1">
-                Mobile Number
-              </label>
+              <label className="block text-amber-800 font-medium mb-2">Mobile Number</label>
               <input
                 type="text"
                 name="MobileNumber"
                 required
                 value={formData.MobileNumber}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-900 focus:outline-none"
+                className="w-full border border-amber-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-amber-300 outline-none bg-white/95"
               />
             </div>
 
             <div>
-              <label className="block text-gray-700 font-medium mb-1">
-                Password
-              </label>
+              <label className="block text-amber-800 font-medium mb-2">Password</label>
               <input
                 type="password"
                 name="Password"
                 required
                 value={formData.Password}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-900 focus:outline-none"
+                className="w-full border border-amber-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-amber-300 outline-none bg-white/95"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-red-900 text-yellow-100 font-semibold uppercase py-2 rounded-lg hover:bg-red-800 transition-all duration-300 cursor-pointer"
+              className="w-full bg-amber-700 text-amber-50 font-semibold py-2 rounded-xl hover:brightness-95 transition-all shadow-inner disabled:opacity-60 uppercase"
             >
               {loading ? "Submitting..." : "Register"}
             </button>
 
-            <p className="text-center text-sm mt-3 text-gray-700">
-              Already have an account?{" "}
-              <button
-                type="button"
-                onClick={() => navigate("/login")}
-                className="text-red-900 font-semibold hover:underline cursor-pointer"
-              >
+            <p className="text-center text-sm mt-3 text-amber-700">
+              Already have an account?{' '}
+              <button type="button" onClick={() => navigate('/login')} className="text-amber-900 font-semibold hover:underline">
                 Login here
               </button>
             </p>
@@ -242,43 +232,39 @@ const Register = () => {
         {step === 2 && (
           <form onSubmit={handleVerifyOtp} className="space-y-4">
             <div>
-              <label className="block text-gray-700 font-medium mb-1">
-                Enter OTP
-              </label>
+              <label className="block text-amber-800 font-medium mb-2">Enter OTP</label>
               <input
                 type="text"
                 required
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-900 focus:outline-none"
+                className="w-full border border-amber-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-amber-300 outline-none bg-white/95"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-red-900 text-yellow-100 font-semibold uppercase py-2 rounded-lg hover:bg-red-800 transition-all duration-300 cursor-pointer"
+              className="w-full bg-amber-700 text-amber-50 font-semibold py-2 rounded-xl hover:brightness-95 transition-all shadow-inner disabled:opacity-60 uppercase"
             >
-              {loading ? "Verifying..." : "Verify OTP"}
+              {loading ? 'Verifying...' : 'Verify OTP'}
             </button>
 
-            <p className="text-center text-sm mt-3 text-gray-700">
-              Didn’t get the OTP?{" "}
+            <p className="text-center text-sm mt-3 text-amber-700">
+              Didn’t get the OTP?{' '}
               <button
                 type="button"
                 onClick={handleResendOtp}
                 disabled={loading || timer > 0}
-                className={`font-semibold ${
-                  timer > 0
-                    ? "text-gray-500 cursor-not-allowed"
-                    : "text-red-900 hover:underline"
-                }`}
+                className={`font-semibold ${timer > 0 ? 'text-gray-400 cursor-not-allowed' : 'text-amber-900 hover:underline'}`}
               >
-                {timer > 0 ? `Resend in ${timer}s` : "Resend OTP"}
+                {timer > 0 ? `Resend in ${timer}s` : 'Resend OTP'}
               </button>
             </p>
           </form>
         )}
+
+        <p className="text-center mt-6 text-xs text-amber-700/80">By registering you agree to our <span className="underline">Terms</span> and <span className="underline">Privacy Policy</span>.</p>
       </div>
     </div>
   );

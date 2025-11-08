@@ -23,6 +23,7 @@ import ResetPassword from "./Pages/Login/ResetPassword";
 import ScrollTopAndSocials from "./Components/ScrollTopAndSocials";
 import Cart from "./Pages/Cart";
 import Profile from "./Pages/Profile";
+import ProductDetailsAlt from "./Pages/ProductDetails";
 
 const App = () => {
   return (
@@ -49,6 +50,7 @@ const App = () => {
         <Route path="reset-password" element={<ResetPassword/>}/>
         <Route path="cart" element={<Cart/>}/>
         <Route path="profile" element={<Profile/>}/>
+        <Route path="/product/:id" element={<ProductDetailsAlt/>}/>
       </Routes>
       <Footer />
     </div>

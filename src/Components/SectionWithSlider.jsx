@@ -2,7 +2,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const SectionPagedGrid = () => {
-<<<<<<< HEAD
+  // Total items
   const totalItems = 16;
   const items = Array.from({ length: totalItems }, (_, i) => ({
     id: i + 1,
@@ -10,35 +10,16 @@ const SectionPagedGrid = () => {
     image: `https://images.unsplash.com/photo-1580201904802-97a8c6a97d4a?auto=format&fit=crop&w=600&q=60&sig=${i}`,
   }));
 
-  const [itemsPerPage, setItemsPerPage] = useState(8);
-  const [page, setPage] = useState(0);
-
-  useEffect(() => {
-    const updateItemsPerPage = () => {
-      if (window.innerWidth < 768) setItemsPerPage(4);
-      else if (window.innerWidth < 1024) setItemsPerPage(6);
-      else setItemsPerPage(8);
-=======
-  // Total items
-  const totalItems = 32; // change as needed
-  const items = Array.from({ length: totalItems }, (_, i) => ({
-    id: i + 1,
-    name: `Item ${i + 1}`,
-  }));
-
   // Responsive items per page
-  const [itemsPerPage, setItemsPerPage] = useState(16); // desktop default
+  const [itemsPerPage, setItemsPerPage] = useState(8); // default
   const [page, setPage] = useState(0);
 
   // Update itemsPerPage on resize
   useEffect(() => {
     const updateItemsPerPage = () => {
-      if (window.innerWidth < 768) {
-        setItemsPerPage(8); // 2 cols x 4 rows
-      } else {
-        setItemsPerPage(16); // 4 cols x 4 rows
-      }
->>>>>>> eae1dac0198b1ef088ee2b7043bfd9d3a39d88f0
+      if (window.innerWidth < 768) setItemsPerPage(4); // mobile
+      else if (window.innerWidth < 1024) setItemsPerPage(6); // tablet
+      else setItemsPerPage(8); // desktop
     };
     updateItemsPerPage();
     window.addEventListener("resize", updateItemsPerPage);
@@ -46,16 +27,14 @@ const SectionPagedGrid = () => {
   }, []);
 
   const totalPages = Math.ceil(items.length / itemsPerPage);
-<<<<<<< HEAD
-  const handleNext = () => setPage((p) => (p + 1) % totalPages);
-  const handlePrev = () => setPage((p) => (p - 1 + totalPages) % totalPages);
+
+  const handleNext = () => setPage((prev) => (prev + 1) % totalPages);
+  const handlePrev = () => setPage((prev) => (prev - 1 + totalPages) % totalPages);
+
   const currentItems = items.slice(page * itemsPerPage, page * itemsPerPage + itemsPerPage);
 
   return (
     <section className="relative bg-gradient-to-b from-[#2c0a05] via-[#3d0f08] to-[#1c0703] py-16 overflow-hidden">
-      {/* Ornamental background overlay */}
-      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dark-wood.png')] opacity-10"></div>
-
       {/* Section title */}
       <div className="relative z-10 text-center mb-14">
         <h2 className="text-3xl md:text-4xl font-bold text-[#e6c177] tracking-wider uppercase drop-shadow-md">
@@ -88,57 +67,12 @@ const SectionPagedGrid = () => {
       <div className="relative z-10 px-4 sm:px-10 lg:px-20">
         <div
           className={`grid gap-8 ${
-            itemsPerPage <= 4
-              ? "grid-cols-2"
-              : itemsPerPage <= 6
-              ? "grid-cols-3"
-              : "grid-cols-4"
-=======
-
-  const handleNext = () => setPage((prev) => (prev + 1) % totalPages);
-  const handlePrev = () => setPage((prev) => (prev - 1 + totalPages) % totalPages);
-
-  const currentItems = items.slice(page * itemsPerPage, page * itemsPerPage + itemsPerPage);
-
-  return (
-    <section className="bg-gradient-to-r from-[#310502] via-[#420303] to-[#3d0101] py-12 md:py-16 relative">
-      {/* Section Title */}
-      <div className="flex justify-center items-center mb-10">
-        <div className="flex items-center space-x-3 md:space-x-4">
-          <span className="w-12 md:w-30 border-t-4 border-[#d4af37] rounded-full"></span>
-          <h2 className="text-xl md:text-3xl font-bold text-[#f7f7f7] uppercase tracking-wide text-center">
-            Our Products
-          </h2>
-          <span className="w-12 md:w-30 border-t-4 border-[#d4af37] rounded-full"></span>
-        </div>
-      </div>
-
-      {/* Buttons */}
-      <button
-        onClick={handlePrev}
-        className="absolute top-1/2 left-2 md:left-6 -translate-y-1/2 z-20 bg-[#d4af37] text-black p-3 rounded-full shadow-lg hover:bg-[#b9931b] hover:scale-110 transition-all duration-300"
-      >
-        <ChevronLeft size={24} />
-      </button>
-      <button
-        onClick={handleNext}
-        className="absolute top-1/2 right-2 md:right-6 -translate-y-1/2 z-20 bg-[#d4af37] text-black p-3 rounded-full shadow-lg hover:bg-[#b9931b] hover:scale-110 transition-all duration-300"
-      >
-        <ChevronRight size={24} />
-      </button>
-
-      {/* Grid */}
-      <div className="px-3 sm:px-6 md:px-16">
-        <div
-          className={`grid gap-6 ${
-            itemsPerPage === 8 ? "grid-cols-2 grid-rows-4" : "grid-cols-4 grid-rows-4"
->>>>>>> eae1dac0198b1ef088ee2b7043bfd9d3a39d88f0
+            itemsPerPage <= 4 ? "grid-cols-2" : itemsPerPage <= 6 ? "grid-cols-3" : "grid-cols-4"
           }`}
         >
           {currentItems.map((item) => (
             <div
               key={item.id}
-<<<<<<< HEAD
               className="group relative bg-[#fdf9f3] border border-[#d4af37]/40 rounded-2xl shadow-md hover:shadow-[#d4af37]/60 transition-all duration-500 overflow-hidden"
             >
               {/* Image */}
@@ -176,19 +110,6 @@ const SectionPagedGrid = () => {
         <div className="mt-12 text-center text-[#e6c177] font-medium tracking-wide">
           Page {page + 1} / {totalPages}
         </div>
-=======
-              className="bg-[#fef9e7] rounded-2xl shadow-md hover:shadow-[#d4af37]/50 transition-all duration-300 flex items-center justify-center h-40 md:h-44 cursor-pointer transform hover:-translate-y-2 hover:scale-105 text-[#310502] font-semibold text-lg"
-            >
-              {item.name}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Page Indicator */}
-      <div className="mt-6 text-center text-[#f7f7f7] font-medium">
-        Page {page + 1} of {totalPages}
->>>>>>> eae1dac0198b1ef088ee2b7043bfd9d3a39d88f0
       </div>
     </section>
   );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   UserPlusIcon,
@@ -169,7 +169,6 @@ const TopNav = () => {
                 )}
               </div>
 
-              {/* Profile Icon */}
               {/* Profile Icon (Dropdown Menu) */}
               {isLoggedIn && (
                 <div className="relative group">
@@ -183,7 +182,6 @@ const TopNav = () => {
                       .toUpperCase()}
                   </div>
 
-                  {/* Optional Hover Tooltip */}
                   <div className="absolute right-0 mt-2 hidden group-hover:block bg-white text-[#310502] rounded-lg shadow-md w-32 text-center py-2 z-50">
                     <button
                       onClick={() => navigate("/profile")}
@@ -202,8 +200,6 @@ const TopNav = () => {
               )}
 
               {/* Cart Icon */}
-<<<<<<< HEAD
-              {/* Cart Icon */}
               <div
                 onClick={() => {
                   if (isLoggedIn) {
@@ -218,11 +214,6 @@ const TopNav = () => {
                   }
                 }}
                 className="relative cursor-pointer hover:scale-105 transition-transform"
-=======
-              <Link
-                to="/cart"
-                className="relative hover:scale-105 transition-transform"
->>>>>>> eae1dac0198b1ef088ee2b7043bfd9d3a39d88f0
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -236,27 +227,16 @@ const TopNav = () => {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993
-<<<<<<< HEAD
-        1.263 12A1.125 1.125 0 0 1 19.25 22H4.75a1.125
-        1.125 0 0 1-1.12-1.243l1.264-12A1.125
-        1.125 0 0 1 5.513 7.5h12.974a1.125
-        1.125 0 0 1 1.119 1.007Z"
-=======
                       1.263 12A1.125 1.125 0 0 1 19.25 22H4.75a1.125
                       1.125 0 0 1-1.12-1.243l1.264-12A1.125
                       1.125 0 0 1 5.513 7.5h12.974a1.125
                       1.125 0 0 1 1.119 1.007Z"
->>>>>>> eae1dac0198b1ef088ee2b7043bfd9d3a39d88f0
                   />
                 </svg>
                 <span className="absolute -top-2 -right-2 bg-[#d4af37] text-[#310502] text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
                   0
                 </span>
-<<<<<<< HEAD
               </div>
-=======
-              </Link>
->>>>>>> eae1dac0198b1ef088ee2b7043bfd9d3a39d88f0
 
               {/* Mobile Menu Button */}
               <button

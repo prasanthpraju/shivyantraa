@@ -1,4 +1,3 @@
-<<<<<<< HEAD
  import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -28,7 +27,6 @@ const Profile = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     try {
       const token = localStorage.getItem("refresh_token");
       await axios.put(
@@ -64,7 +62,7 @@ const Profile = () => {
     }
   };
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     localStorage.clear();
     sessionStorage.clear();
     window.dispatchEvent(new Event("authChange"));
@@ -156,6 +154,3 @@ const Profile = () => {
 };
 
 export default Profile;
-=======
- 
->>>>>>> eae1dac0198b1ef088ee2b7043bfd9d3a39d88f0

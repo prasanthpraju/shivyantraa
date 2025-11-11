@@ -1,12 +1,10 @@
 @import "tailwindcss";
 @import "slick-carousel/slick/slick.css";
 @import "slick-carousel/slick/slick-theme.css";
-<<<<<<< HEAD
+ 
 @import "animate.css";
-
-=======
->>>>>>> eae1dac0198b1ef088ee2b7043bfd9d3a39d88f0
-
+ 
+ 
 /* === Custom Animation === */
 @keyframes fadeIn {
   from {
@@ -48,7 +46,4 @@
   animation: fadeSlideIn 0.8s ease-out forwards;
   opacity: 0;
 }
-<<<<<<< HEAD
  
-=======
->>>>>>> eae1dac0198b1ef088ee2b7043bfd9d3a39d88f0

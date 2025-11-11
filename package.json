@@ -1,4 +1,5 @@
-{
+
+ {
   "name": "shivyantraa",
   "private": true,
   "version": "0.0.0",
@@ -17,10 +18,7 @@
     "@mui/icons-material": "^7.3.4",
     "@mui/material": "^7.3.4",
     "@tailwindcss/vite": "^4.1.16",
-<<<<<<< HEAD
     "animate.css": "^4.1.1",
-=======
->>>>>>> eae1dac0198b1ef088ee2b7043bfd9d3a39d88f0
     "axios": "^1.12.2",
     "framer-motion": "^12.23.24",
     "lucide-react": "^0.548.0",

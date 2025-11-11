@@ -24,12 +24,10 @@ import ScrollTopAndSocials from "./Components/ScrollTopAndSocials";
 import Cart from "./Pages/Cart";
 import Profile from "./Pages/Profile";
 import ProductDetailsAlt from "./Pages/ProductDetails";
-<<<<<<< HEAD
+ 
 import ReviewsPage from "./Pages/ReviewsPage";
 import Checkout from "./Pages/Checkout";
-=======
->>>>>>> eae1dac0198b1ef088ee2b7043bfd9d3a39d88f0
-
+  
 const App = () => {
   return (
     <div>
@@ -53,17 +51,17 @@ const App = () => {
         <Route path="register" element={<Register/>}/>
         <Route path="forgot-password" element={<ForgotPassword/>}/>
         <Route path="reset-password" element={<ResetPassword/>}/>
-<<<<<<< HEAD
+ 
         <Route path="/cart" element={<Cart/>}/>
         <Route path="profile" element={<Profile/>}/>
         <Route path="/product/:id" element={<ProductDetailsAlt/>}/>
         <Route path="/reviewpage" element={<ReviewsPage/>}/>
         <Route path="/checkout" element={<Checkout/>}/>
-=======
+ 
         <Route path="cart" element={<Cart/>}/>
         <Route path="profile" element={<Profile/>}/>
         <Route path="/product/:id" element={<ProductDetailsAlt/>}/>
->>>>>>> eae1dac0198b1ef088ee2b7043bfd9d3a39d88f0
+ 
       </Routes>
       <Footer />
     </div>

@@ -24,6 +24,7 @@ const CategorySlider = () => {
     fetchCategories();
   }, []);
 
+<<<<<<< HEAD
   // ✅ Auto-scroll effect (optional)
   useEffect(() => {
     const interval = setInterval(() => {
@@ -46,6 +47,8 @@ const CategorySlider = () => {
     return () => clearInterval(interval);
   }, []);
 
+=======
+>>>>>>> eae1dac0198b1ef088ee2b7043bfd9d3a39d88f0
   const scroll = (direction) => {
     if (!sliderRef.current || !cardRef.current) return;
     const scrollAmount = cardRef.current.offsetWidth + 24;
@@ -75,7 +78,10 @@ const CategorySlider = () => {
 
   return (
     <section className="relative bg-gradient-to-r from-[#310502] via-[#420303] to-[#3d0101] py-16 overflow-hidden">
+<<<<<<< HEAD
       {/* Heading */}
+=======
+>>>>>>> eae1dac0198b1ef088ee2b7043bfd9d3a39d88f0
       <div className="text-center mb-10">
         <h2 className="text-3xl md:text-4xl font-bold text-[#f7f7f7] uppercase tracking-wide relative inline-block">
           Explore Categories
@@ -83,11 +89,18 @@ const CategorySlider = () => {
         </h2>
       </div>
 
+<<<<<<< HEAD
       {/* Slider */}
       <div className="relative">
         <div
           ref={sliderRef}
           className="flex gap-6 px-6 md:px-12 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory"
+=======
+      <div className="relative">
+        <div
+          ref={sliderRef}
+          className="flex gap-6 px-6 md:px-12 overflow-x-auto no-scrollbar scroll-smooth"
+>>>>>>> eae1dac0198b1ef088ee2b7043bfd9d3a39d88f0
         >
           {categories.map((item, idx) => {
             const imageUrl =
@@ -99,7 +112,11 @@ const CategorySlider = () => {
                 key={item.id || idx}
                 ref={idx === 0 ? cardRef : null}
                 onClick={() => handleCategoryClick(item)}
+<<<<<<< HEAD
                 className="min-w-[220px] md:min-w-[260px] bg-[#fef9e7] rounded-2xl shadow-lg hover:shadow-[#d4af37]/40 transition-transform duration-500 hover:-translate-y-2 cursor-pointer flex-shrink-0 group snap-start"
+=======
+                className="min-w-[220px] md:min-w-[260px] bg-[#fef9e7] rounded-2xl shadow-lg hover:shadow-[#d4af37]/40 transition-transform duration-500 hover:-translate-y-2 cursor-pointer flex-shrink-0 group"
+>>>>>>> eae1dac0198b1ef088ee2b7043bfd9d3a39d88f0
               >
                 <div className="relative overflow-hidden rounded-t-2xl">
                   <img

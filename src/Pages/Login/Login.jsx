@@ -28,11 +28,15 @@ const Login = () => {
       const user = res?.data?.user || {};
       const token = res?.data?.refresh_token || user.refresh_token || "";
 
+<<<<<<< HEAD
       // 🔥 CRUCIAL FIX: Store the token as 'jwt' for API consistency
       localStorage.setItem("jwt", token); 
       // The old key is no longer strictly necessary but kept for backward compatibility if other parts of the app rely on it.
       localStorage.setItem("refresh_token", token); 
       
+=======
+      localStorage.setItem("refresh_token", token);
+>>>>>>> eae1dac0198b1ef088ee2b7043bfd9d3a39d88f0
       localStorage.setItem("Email", formData.Email || user.Email || "");
       localStorage.setItem("isLoginned", "true");
       localStorage.setItem("username", user.username || user.name || "User");
@@ -73,6 +77,10 @@ const Login = () => {
     <div
       className="min-h-screen flex items-center justify-center px-4 relative"
       style={{
+<<<<<<< HEAD
+=======
+        // classic / vintage style: subtle parchment gradient blended with provided image
+>>>>>>> eae1dac0198b1ef088ee2b7043bfd9d3a39d88f0
         backgroundImage: `linear-gradient(180deg, rgba(250,245,235,0.95), rgba(241,233,211,0.95)), url(${Loginbg})`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
@@ -188,4 +196,8 @@ const Login = () => {
   );
 };
 
+<<<<<<< HEAD
 export default Login;
+=======
+export default Login;
+>>>>>>> eae1dac0198b1ef088ee2b7043bfd9d3a39d88f0

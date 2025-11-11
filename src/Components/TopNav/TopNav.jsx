@@ -17,7 +17,9 @@ const TopNav = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(
     !!localStorage.getItem("refresh_token")
   );
+  const [cartCount, setCartCount] = useState(0);
 
+  // Update login status
   useEffect(() => {
     const handleAuthChange = () => {
       const loggedIn = !!localStorage.getItem("refresh_token");
@@ -30,6 +32,30 @@ const TopNav = () => {
       window.removeEventListener("authChange", handleAuthChange);
       window.removeEventListener("storage", handleAuthChange);
     };
+  }, []);
+
+  // Fetch cart count
+  useEffect(() => {
+    const fetchCartCount = async () => {
+      const token = localStorage.getItem("refresh_token");
+      if (!token) return;
+      try {
+        const res = await axios.get("https://shivyantra.onrender.com/api/cart", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const items = res.data.cartItems || [];
+        const totalQty = items.reduce((sum, item) => sum + (item.Quantity || 1), 0);
+        setCartCount(totalQty);
+      } catch (err) {
+        console.error("Error fetching cart count:", err);
+      }
+    };
+
+    fetchCartCount();
+
+    // Optional: refresh count on storage change (login/logout)
+    window.addEventListener("storage", fetchCartCount);
+    return () => window.removeEventListener("storage", fetchCartCount);
   }, []);
 
   const handleSearch = () => {
@@ -94,7 +120,7 @@ const TopNav = () => {
       swal.fire({
         icon: "info",
         title: "Logged Out",
-        text: "You have been logged out.",
+        text: "You have been logged out",
         showConfirmButton: false,
         timer: 1500,
       });
@@ -169,7 +195,7 @@ const TopNav = () => {
                 )}
               </div>
 
-              {/* Profile Icon (Dropdown Menu) */}
+              {/* Profile Icon */}
               {isLoggedIn && (
                 <div className="relative group">
                   <div
@@ -177,9 +203,7 @@ const TopNav = () => {
                     onClick={() => navigate("/profile")}
                     title={localStorage.getItem("username") || "Profile"}
                   >
-                    {(localStorage.getItem("username") || "U")
-                      .charAt(0)
-                      .toUpperCase()}
+                    {(localStorage.getItem("username") || "U").charAt(0).toUpperCase()}
                   </div>
 
                   <div className="absolute right-0 mt-2 hidden group-hover:block bg-white text-[#310502] rounded-lg shadow-md w-32 text-center py-2 z-50">
@@ -234,7 +258,7 @@ const TopNav = () => {
                   />
                 </svg>
                 <span className="absolute -top-2 -right-2 bg-[#d4af37] text-[#310502] text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                  0
+                  {cartCount}
                 </span>
               </div>
 

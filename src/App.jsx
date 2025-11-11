@@ -27,6 +27,7 @@ import ProductDetailsAlt from "./Pages/ProductDetails";
  
 import ReviewsPage from "./Pages/ReviewsPage";
 import Checkout from "./Pages/Checkout";
+import OrderHistory from "./Pages/OrderHistory";
   
 const App = () => {
   return (
@@ -61,6 +62,7 @@ const App = () => {
         <Route path="cart" element={<Cart/>}/>
         <Route path="profile" element={<Profile/>}/>
         <Route path="/product/:id" element={<ProductDetailsAlt/>}/>
+        <Route path="/orderhistory" element={<OrderHistory/>}/>
  
       </Routes>
       <Footer />

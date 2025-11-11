@@ -1,12 +1,26 @@
  import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  // Toast setup
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 2500,
+    timerProgressBar: true,
+    background: "#fff",
+    color: "#333",
+    showClass: { popup: "animate__animated animate__fadeInRight" },
+    hideClass: { popup: "animate__animated animate__fadeOutRight" },
+  });
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -15,8 +29,6 @@ const ProductDetails = () => {
           "https://shivyantra.onrender.com/api/products?populate=*"
         );
         const products = res.data?.data || [];
-
-        // find matching product
         const found = products.find((item) => String(item.id) === String(id));
         setProduct(found || null);
       } catch (err) {
@@ -29,6 +41,36 @@ const ProductDetails = () => {
 
     fetchProduct();
   }, [id]);
+
+  const handleAddToCart = async (product) => {
+    try {
+      const token = localStorage.getItem("refresh_token");
+      if (!token) {
+        Toast.fire({ icon: "info", title: "Please login to add items to cart 🛒" });
+        return;
+      }
+
+      const imageUrl =
+        product.ProductImage?.[0]?.url || "https://via.placeholder.com/300x250?text=No+Image";
+
+      const payload = {
+        ProductName: product.ProductName,
+        ProductImage: imageUrl,
+        Quantity: 1,
+        Price: product.Price,
+        documentId: product.id,
+      };
+
+      await axios.post("https://shivyantra.onrender.com/api/cart", payload, {
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+      });
+
+      Toast.fire({ icon: "success", title: `${product.ProductName} added to cart` });
+    } catch (error) {
+      console.error("Add to cart error:", error);
+      Toast.fire({ icon: "error", title: "Error adding product. Try again!" });
+    }
+  };
 
   if (loading)
     return (
@@ -78,7 +120,6 @@ const ProductDetails = () => {
               ))}
             </div>
 
-            {/* About Section */}
             <div className="mt-6 bg-white rounded-2xl p-6 shadow-sm">
               <h3 className="text-lg font-semibold text-amber-900 mb-3">
                 About this Product
@@ -104,7 +145,7 @@ const ProductDetails = () => {
 
               <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <button
-                  onClick={() => navigate("/cart")}
+                  onClick={() => handleAddToCart(product)}
                   className="w-full bg-red-900 text-white py-3 rounded-lg font-semibold hover:brightness-95 transition"
                 >
                   Add to Cart

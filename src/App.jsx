@@ -7,7 +7,7 @@ import Home from "./Pages/Home/Home";
 import Shop from "./Pages/Shop/Shop";
 import Login from "./Pages/Login/Login";
 import Contact from "./Pages/Contact/Contact";
-import { ToastContainer } from "react-toastify"; 
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import About from "./Pages/About/About";
 import Footer from "./Components/Footer";
@@ -24,16 +24,17 @@ import ScrollTopAndSocials from "./Components/ScrollTopAndSocials";
 import Cart from "./Pages/Cart";
 import Profile from "./Pages/Profile";
 import ProductDetailsAlt from "./Pages/ProductDetails";
- 
+
 import ReviewsPage from "./Pages/ReviewsPage";
 import Checkout from "./Pages/Checkout";
 import OrderHistory from "./Pages/OrderHistory";
-  
+import RudrakshaDetails from "./Pages/RudrakshaDetails";
+
 const App = () => {
   return (
     <div>
       <ToastContainer position="top-center" autoClose={3000} />
-      <ScrollTopAndSocials/>
+      <ScrollTopAndSocials />
       <TopSlider />
       <Navbar />
       <TopNav />
@@ -43,27 +44,27 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
-        <Route path="/blog" element={<Blog/>}/>
-        <Route path="/blog/:id" element={<BlogDetail/>}/>
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:id" element={<BlogDetail />} />
         <Route path="/cancellationPolicy" element={<CancellationPolicy />} />
         <Route path="/replacementPolicy" element={<ReplacementPolicy />} />
         <Route path="/shippingPolicy" element={<ShippingPolicy />} />
         <Route path="/strategicVision" element={<StrategicVision />} />
-        <Route path="register" element={<Register/>}/>
-        <Route path="forgot-password" element={<ForgotPassword/>}/>
-        <Route path="reset-password" element={<ResetPassword/>}/>
- 
-        <Route path="/cart" element={<Cart/>}/>
-        <Route path="profile" element={<Profile/>}/>
-        <Route path="/product/:id" element={<ProductDetailsAlt/>}/>
-        <Route path="/reviewpage" element={<ReviewsPage/>}/>
-        <Route path="/checkout" element={<Checkout/>}/>
- 
-        <Route path="cart" element={<Cart/>}/>
-        <Route path="profile" element={<Profile/>}/>
-        <Route path="/product/:id" element={<ProductDetailsAlt/>}/>
-        <Route path="/orderhistory" element={<OrderHistory/>}/>
- 
+        <Route path="register" element={<Register />} />
+        <Route path="forgot-password" element={<ForgotPassword />} />
+        <Route path="reset-password" element={<ResetPassword />} />
+
+        <Route path="/cart" element={<Cart />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="/product/:id" element={<ProductDetailsAlt />} />
+        <Route path="/reviewpage" element={<ReviewsPage />} />
+        <Route path="/checkout" element={<Checkout />} />
+
+        <Route path="cart" element={<Cart />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="/product/:id" element={<ProductDetailsAlt />} />
+        <Route path="/orderhistory" element={<OrderHistory />} />
+        <Route path="/rudraksha/:id" element={<RudrakshaDetails/>}/>
       </Routes>
       <Footer />
     </div>

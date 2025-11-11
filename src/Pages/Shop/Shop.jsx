@@ -17,8 +17,8 @@ const Shop = () => {
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [selectedSubcategory, setSelectedSubcategory] = useState("");
   const [sortOption, setSortOption] = useState("Featured");
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
 
-  // Fetch categories
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -33,7 +33,6 @@ const Shop = () => {
     fetchCategories();
   }, []);
 
-  // Fetch products
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -53,9 +52,7 @@ const Shop = () => {
           setProducts(catData?.products || []);
           setSubcategories(catData?.subcategories || []);
         } else {
-          const res = await axios.get(
-            "https://shivyantra.onrender.com/api/products?populate=*"
-          );
+          const res = await axios.get("https://shivyantra.onrender.com/api/products?populate=*");
           setProducts(res.data?.data || []);
           setSubcategories([]);
         }
@@ -68,16 +65,14 @@ const Shop = () => {
     fetchProducts();
   }, [selectedCategory, selectedSubcategory]);
 
-  // Sorting
   const sortedProducts = [...products].sort((a, b) => {
     const priceA = Number(a.Price) || 0;
     const priceB = Number(b.Price) || 0;
     if (sortOption === "Low to High") return priceA - priceB;
     if (sortOption === "High to Low") return priceB - priceA;
-    return 0; // Featured
+    return 0;
   });
 
-  // Toast setup
   const Toast = Swal.mixin({
     toast: true,
     position: "top-end",
@@ -90,7 +85,6 @@ const Shop = () => {
     hideClass: { popup: "animate__animated animate__fadeOutRight" },
   });
 
-  // Add to cart
   const handleAddToCart = async (product) => {
     try {
       const token = localStorage.getItem("refresh_token");
@@ -124,14 +118,19 @@ const Shop = () => {
     setSelectedCategory(name);
     setSelectedSubcategory("");
     navigate(`/shop?category=${encodeURIComponent(name)}`);
+    setShowMobileFilters(false);
   };
 
-  const handleSubcategorySelect = (sub) => setSelectedSubcategory(sub);
+  const handleSubcategorySelect = (sub) => {
+    setSelectedSubcategory(sub);
+    setShowMobileFilters(false);
+  };
 
   const handleShowAll = () => {
     setSelectedCategory("");
     setSelectedSubcategory("");
     navigate("/shop");
+    setShowMobileFilters(false);
   };
 
   if (loading)
@@ -149,11 +148,11 @@ const Shop = () => {
       }}
     >
       <div className="container mx-auto px-4">
-        <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl p-6 md:p-8 border border-amber-200">
+        <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-xl p-4 md:p-8 border border-amber-200">
           {/* Header */}
           <div className="flex flex-col md:flex-row justify-between items-center mb-6">
             <div>
-              <h2 className="text-3xl font-extrabold text-red-900 mb-1">
+              <h2 className="text-2xl md:text-3xl font-extrabold text-red-900 mb-1">
                 {selectedSubcategory
                   ? `${selectedSubcategory} Products`
                   : selectedCategory
@@ -165,8 +164,8 @@ const Shop = () => {
               </p>
             </div>
 
-            <div className="mt-4 md:mt-0 flex items-center gap-4">
-              <label className="font-medium">Sort By:</label>
+            <div className="mt-4 md:mt-0 flex items-center gap-2 md:gap-4 flex-wrap">
+              <label className="font-medium text-sm md:text-base">Sort By:</label>
               <select
                 value={sortOption}
                 onChange={(e) => setSortOption(e.target.value)}
@@ -178,19 +177,28 @@ const Shop = () => {
               </select>
 
               <button
+                onClick={() => setShowMobileFilters((prev) => !prev)}
+                className="md:hidden bg-amber-700 text-white px-3 py-1 rounded-lg font-medium"
+              >
+                Filters
+              </button>
+
+              <button
                 onClick={() => navigate("/cart")}
-                className="hidden md:inline-flex items-center gap-2 bg-amber-700 text-amber-50 px-4 py-2 rounded-lg shadow hover:brightness-95 transition"
+                className="hidden md:inline-flex items-center gap-2 bg-amber-700 text-white px-4 py-2 rounded-lg shadow hover:brightness-95 transition"
               >
                 🛒 View Cart
               </button>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
             {/* Sidebar */}
-            <aside className="md:col-span-1">
-              <div className="sticky top-6">
-                <h3 className="text-lg font-semibold mb-4 border-b pb-2">Categories</h3>
+            <aside
+              className={`md:col-span-1 ${showMobileFilters ? "block" : "hidden"} md:block`}
+            >
+              <div className="sticky top-6 bg-white p-4 rounded-xl shadow-md md:shadow-none md:p-0">
+                <h3 className="text-lg font-semibold mb-3 border-b pb-2">Categories</h3>
                 <ul className="space-y-2">
                   <li>
                     <button
@@ -202,38 +210,38 @@ const Shop = () => {
                       All Products
                     </button>
                   </li>
-
                   {categories.map((cat) => (
                     <li key={cat.id}>
                       <div>
                         <button
                           onClick={() => handleCategorySelect(cat.Name)}
                           className={`w-full text-left px-3 py-2 rounded-md font-medium transition-colors ${
-                            selectedCategory === cat.Name ? "bg-amber-300 text-black" : "hover:bg-gray-100"
+                            selectedCategory === cat.Name
+                              ? "bg-amber-300 text-black"
+                              : "hover:bg-gray-100"
                           }`}
                         >
                           {cat.Name}
                         </button>
 
-                        {selectedCategory === cat.Name &&
-                          cat.subcategories?.length > 0 && (
-                            <ul className="ml-4 mt-1 space-y-1 border-l border-amber-200 pl-2">
-                              {cat.subcategories.map((sub) => (
-                                <li key={sub.id}>
-                                  <button
-                                    onClick={() => handleSubcategorySelect(sub.text)}
-                                    className={`text-sm w-full text-left px-2 py-1 rounded-md ${
-                                      selectedSubcategory === sub.text
-                                        ? "bg-amber-200"
-                                        : "hover:bg-gray-100"
-                                    }`}
-                                  >
-                                    {sub.text}
-                                  </button>
-                                </li>
-                              ))}
-                            </ul>
-                          )}
+                        {selectedCategory === cat.Name && cat.subcategories?.length > 0 && (
+                          <ul className="ml-4 mt-1 space-y-1 border-l border-amber-200 pl-2">
+                            {cat.subcategories.map((sub) => (
+                              <li key={sub.id}>
+                                <button
+                                  onClick={() => handleSubcategorySelect(sub.text)}
+                                  className={`text-sm w-full text-left px-2 py-1 rounded-md ${
+                                    selectedSubcategory === sub.text
+                                      ? "bg-amber-200"
+                                      : "hover:bg-gray-100"
+                                  }`}
+                                >
+                                  {sub.text}
+                                </button>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                       </div>
                     </li>
                   ))}
@@ -246,10 +254,11 @@ const Shop = () => {
               {sortedProducts.length === 0 ? (
                 <p className="text-center py-20 text-gray-500 text-lg">No products found.</p>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                   {sortedProducts.map((product) => {
                     const imageUrl =
-                      product.ProductImage?.[0]?.url || "https://via.placeholder.com/300x250?text=No+Image";
+                      product.ProductImage?.[0]?.url ||
+                      "https://via.placeholder.com/300x250?text=No+Image";
 
                     return (
                       <div
@@ -264,7 +273,7 @@ const Shop = () => {
                           />
                         </div>
 
-                        <div className="mt-4 flex justify-between items-start gap-4">
+                        <div className="mt-4 flex justify-between items-start gap-2 md:gap-4">
                           <div>
                             <h3 className="font-semibold text-lg text-gray-800">{product.ProductName}</h3>
                             <p className="text-sm text-gray-600 mt-1">{product.SubTitle || ""}</p>
@@ -276,7 +285,7 @@ const Shop = () => {
                           </div>
                         </div>
 
-                        <div className="mt-4 flex gap-3">
+                        <div className="mt-4 flex flex-col sm:flex-row gap-2 sm:gap-3">
                           <button
                             onClick={() => navigate(`/product/${product.id}`)}
                             className="flex-1 bg-red-950 text-white py-2 rounded-lg font-semibold hover:brightness-95 transition"
@@ -308,4 +317,3 @@ const Shop = () => {
 };
 
 export default Shop;
-  
